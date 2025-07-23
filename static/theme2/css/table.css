@@ -1,0 +1,93 @@
+.horizontal-table{
+  width: 100%;
+  max-height: 65vh;
+  padding:0  25px;
+  margin: 10px 0 20px 0;
+}
+.table-wrapper{
+   overflow: auto;
+   width: 100%;
+   max-height: 65vh;
+}
+.fixedtable {
+  white-space: nowrap;
+  margin: 0;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+.fixedtable  th {
+  border: 1px solid #c9d0f9;
+  padding: 0.5rem 1rem;
+  border-bottom: 0
+}
+.fixedtable thead tr th:first-child {
+  border: 1px solid #f9dab7;
+}
+.fixedtable td{
+  border: 1px solid #c9d0f9;
+  border-bottom: 0;
+  border-left: 0
+}
+
+.fixedtable thead th {
+  padding: 3px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 25vw;
+  color: #3d4a97;
+  text-align: center;
+  border-bottom: 0;
+  background: #dfe4ff
+}
+.fixedtable tbody th, .fixedtable tbody td{
+  text-align: left;
+}
+.fixedtable td {
+  background: #fff;
+  padding: 4px 5px;
+  text-align: center;
+  color:#001173;
+}
+
+.fixedtable tbody th {
+  text-align: left;
+  position: relative;
+}
+
+.fixedtable thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ffecd6;
+  color:#ff8600;
+}
+.fixedtable tbody th {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+}
+.fixedtable tbody tr th:first-child {
+  border: 1px solid #f9dab7;
+  color: #ff8600;
+  border-bottom: 0
+}
+
+.fixedtable .bg-danger{background-color: #fd4141 !important}
+
+.table-navigator{width: 100%;display:flex;text-align: right;margin-bottom: 5px;justify-content: center;}
+.table-navigator .month-name{margin-left: auto;font-size: 18px;font-weight: 600;color:#3d4a97;}
+.table-navigator .navigator{margin-left: auto;}
+.table-navigator .prev, .table-navigator .next{width: 30px;line-height: 30px;background:#dfe4ff;color:#3d4a97;text-align: center;display: inline-block;font-size: 20px;cursor: pointer;border-radius: 2px;}
+.selectDateWrapper{display: inline-block;}
+.selectDateWrapper .icon{}
+.selectDate{border:none; padding: 5px;}
+.selectDate:focus{outline: none;}
+.circle-icon{width: 25px;line-height: 25px;text-align: center;color:#fff;border-radius: 50%;display:inline-block;}
+
+@media(max-width: 580px){
+  .fixedtable tbody tr th:first-child.headcol{cursor: pointer;}
+}

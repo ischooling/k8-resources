@@ -1,0 +1,29 @@
+*{margin:0;padding:0;}
+body{}
+.main-div{;background-size:cover;background-repeat:no-repeat;background-position:center;height:100vh}.content{text-align:center}
+.inner-div{padding:100px 130px;}
+.content{padding:115px 100px;margin:0 auto;color:#fff;}
+.login-form{border-radius:20px;background-color:#fff;padding:0px; box-shadow:3px 4px 8px #cfcfcf; transition: all 0.3s;}
+.login-form:hover{}
+.login-form h2{ font-size:22px; margin:0 auto; padding:10px 0;}
+.login-form form{ padding:15px 30px;}
+.login-form form label{ margin-bottom:0;}
+.login-form .form-group{ padding:0 0; margin:5px auto;}
+.form-header{background-color:#ff8600;color:#fff;text-align:center;padding:5px 0; border-radius:20px 20px 0 0;}
+.logo img{width:100%;max-width:150px;margin:0 auto}
+.k8-formgroup{position:relative}
+.k8-formgroup label{color:#001173;font-weight: 600;font-size: 12px;}
+.k8-formgroup .icon{position:absolute;right:0;top:0;}
+.k8-formgroup .form-control{height: 30px;font-size: 13px;padding:0 5px;}
+.captcha-img{position:absolute;right:0;top:22px;}
+.captcha-img img{width:100%;max-width:80px;}
+.cstm-btn{ background:#001173;}
+.cstm-btn:hover{ background:#ff8600;}
+
+
+.k8-signup{ width:100%; background:url(bg1.jpg) center center; padding:40px 0; height:100vh; background-size:cover;}
+.k8-signup .signup-right{ text-align:center; padding:50px 0;}
+.k8-signup .signup-right h3{ color:#001173;}
+.k8-signup .signup-right img{ text-align:center; margin:0 auto;}
+.btm-txt{ margin:8px auto;}
+

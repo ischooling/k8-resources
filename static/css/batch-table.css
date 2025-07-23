@@ -1,0 +1,80 @@
+.horizontal-table{
+  width: 100%;
+  max-height: 65vh;
+  padding:0  25px;
+  margin: 10px 0 20px 0;
+}
+.table-wrapper{
+   overflow: auto;
+   width: 100%;
+   max-height: 65vh;
+}
+.fixedtable {
+  white-space: nowrap;
+  margin: 0;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+.fixedtable  th {
+  border: 1px solid #c9d0f9;
+  padding: 0.5rem 1rem;
+  border-bottom: 0
+}
+.fixedtable thead tr th:first-child {
+  border: 1px solid #f9dab7;
+}
+.fixedtable td{
+  border: 1px solid #c9d0f9;
+  border-bottom: 0;
+  border-left: 0
+}
+
+.fixedtable thead th {
+  padding: 3px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 25vw;
+  color: #3d4a97;
+  text-align: center;
+  border-bottom: 0;
+  background: #dfe4ff
+}
+.fixedtable tbody th, .fixedtable tbody td{
+  text-align: left;
+}
+.fixedtable td {
+  background: #fff;
+  padding: 4px 5px;
+  text-align: center;
+  color:#001173;
+}
+
+.fixedtable tbody th {
+  text-align: left;
+  position: relative;
+}
+
+.fixedtable thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ffecd6;
+  color:#ff8600;
+}
+.fixedtable tbody th {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+}
+.fixedtable tbody tr th:first-child {
+  border: 1px solid #f9dab7;
+  color: #ff8600;
+  border-bottom: 0
+}
+
+.join-btn{display: inline-block; padding: 2px 10px; line-height:20px; color:#001173; border:1px solid #001173;  border-radius:60px;transition:all 0.5s ease-in-out;-webkit-transition:all 0.5s ease-in-out}
+.join-btn:hover{background:#001173;color:#fff}

@@ -1,0 +1,163 @@
+body{margin:0 !important}
+.italic{font-style: italic;}
+.header{width:100%;display:flex;align-items:center}
+.navbar {background: #f3f3f3;padding: 5px 10px;width: 100%;z-index: 99;margin: 0 auto;}
+.navbar .call-and-whatsapp{color:#333;text-align:right}
+.call-and-whatsapp i.fa-phone{font-size: 18px;}
+.call-and-whatsapp a{color:#333;text-decoration: none;}
+.navbar .logo{max-width:80px;width:100%;}
+.inr-bg{width: 100%;}
+.mobile-banner{display:none}
+.reqst-img{ position:relative; background:url(../img/banner.jpg) right top no-repeat;height:calc(100vh - 108px); padding:20px;padding-bottom:0;background-size:cover;width:100%;display:flex;align-items:center;}
+.reqst-img h1{ font-size:30px;font-weight:600; line-height:40px; text-align:left;  padding-right:50px; margin-top:0 !important;font-style: italic;}
+.reqst-img h5{ font-size:22px; text-align:left; padding-right:50px;line-height:24px;margin-bottom:0 !important}
+.offer-text{ font-weight:600;font-style: italic;font-size:22px; text-align:left; padding-right:50px; line-height:26px;margin:10px 0}
+.offer-text span{padding:5px;display:inline-block}
+.offer-text strong{background:#001173;  display:inline-block;padding:5px;}
+.NPD{ padding:0 0;}
+.slider-form{width: 100%;max-width: 400px;display: inline-block;position: fixed;left:0px;top:67.7px;}
+.reqst{ width:100%; background:#001173; padding:20px;height:calc(100vh - 108px);}
+.reqst.auto-scroll{overflow-y: auto;overflow-x: hidden;}
+.reqst input:not([type='radio']), .reqst textarea, .reqst select, #chooseDate{ width:100%; margin:10px auto; border:none; padding:5px;border-bottom:2px solid #fff;color:#fff;background:transparent;resize: none;border-radius: 0;box-shadow: none;}
+.reqst select{height: 33px;}
+.reqst .enquiry-group .field-name{color:#fff}
+.reqst input[type="radio"]:checked+label{color:#001173; } 
+.reqst h3{ font-size:24px; color:#fff; margin:5px auto; text-transform:uppercase}
+.reqst .button{font-size:16px; background:#fff; color:#001173; width:100%; margin:10px auto; float:none; border:none; padding:10px; border-radius:2px;}
+.relative{position:relative}  
+.fw-600{font-weight: 600;}
+.reqst input::-webkit-input-placeholder{color:#fff;}
+.reqst textarea::-webkit-input-placeholder{color:#fff;}
+.form-fields{max-height: 475px;overflow-y: auto;overflow-x: hidden;}
+.form-fields.over-flow-auto{overflow-y: inherit;overflow-x: inherit;max-height: inherit;}
+.time-slot .form-check{width:100%;display:flex;flex-direction: row-reverse;padding:0 10px;border-radius:4px;align-items:center;background:#fff;margin-bottom:10px;cursor:pointer;justify-content: center;}
+.time-slot .form-check .meeting-time{display:inline-block;margin-bottom: 0;padding:10px 5px 10px 0;}
+.not-available{font-size:16px;color:#fff;text-align:center;margin:10px 0}
+
+.footer-style{width: 100%;float:left;background:#1b1b1b;color:#fff;padding:10px 0px !important}
+.footer-style p{margin-bottom:0 !important}
+.whatsapp-icon{float:right;position:absolute;right:20px;top:-10px}
+.whatsapp-icon a{background:#fff;padding:9px 30px;font-size:20px;display:inline-block;}
+.whatsapp-icon.fixed-right{position:fixed;right:-45px;top:50%;transform:translateY(-50%);transform:rotate(90deg);border:1px solid #eee}
+.points-wrapper{padding:10px 0}
+.points{width:100%;display:inline-block;padding-left:22px;margin-top:10px;margin-bottom:0 !important}
+.points li{font-size: 18px;color: #fff;padding-bottom:10px;font-weight:300}
+.points li:last-child{padding-bottom:0}
+.rgba-color{padding:15px;background:rgba(0, 17, 115, 0.3);margin-bottom:20px;}
+.margin-zero{margin:0px !important}
+.select-design{width: 100%;border: 0;border-bottom: 2px solid #fff;padding: 5px;background: transparent;}
+.select-design option{color:#666;width:100%;float:left;paddinb:3px 0 }
+
+.thankyou-page{width:100%;height:calc(100vh - 108px);display:flex;align-items:center;justify-content: center;}
+.thankyou-page .thankyou-img img{max-width:350px;display:inline-block;width:100%;}
+.thankyou-page .message{font-size:24px;font-weight:400;font-style:italic;margin:15px 0}
+.back-to-home-page{background:#001173;display:inline-block;padding:10px 20px;border-radius:5px;font-size:18px;color:#fff;text-transform:uppercase}
+.back-to-home-page:hover{color:#fff}
+
+.slider-content-wrapper{width:96%;float:left;z-index:9}
+.section-padding{padding:65px 0;}
+.banner-img{ position:relative; background:url(../img/student_bg.webp) right top no-repeat;height:calc(100vh - 67.40px); padding:20px;padding-bottom:0;background-size:cover;width:100%;display:flex;align-items:center;}
+.banner-img:after{content:'';position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.3);top:0;left:0}
+.banner-img .container{z-index:9}
+.blue-text{color:#001173}
+.banner-content{width:100%;diaplay:inline-block}
+.slider-heading{font-size:40px;color:#fff;font-weight:600;padding-top:35px;line-height:50px;}
+.slider-form-fields{width: 100%;display: inline-block;}
+.slider-form-fields .reqst{height:auto}
+.full{width:100%;float:left}
+.shake{-webkit-animation: shake-animation 1.5s ease infinite; animation: shake-animation 1.5s ease infinite;transform-origin: 50% 50%;}
+.emoji{text-align: center;font-size: 100px; color: #fff; margin-bottom: 5px;}
+@keyframes shake-animation {
+  0% { transform:translate(0,0) }
+  10% { transform:translate(5px,0) }
+  30% { transform:translate(0,0) }
+  50% { transform:translate(5px,0) }
+  70% { transform:translate(0,0) }
+  80% { transform:translate(5px,0) }
+  100% { transform:translate(0,0) }
+}
+.not-available{color: #fff !important;}
+.section-heading{font-size:40px;color:#001173;max-width:750px;width:100%;padding:0 20px;margin:0 auto;font-weight:600;line-height:42px;margin-bottom:65px;}
+.benefits{width:100%;display:flex;align-items:center;flex-wrap: wrap;}
+.benefits img{width:100%;}
+.benefits h4{font-weight:400;padding:15px 0; position: relative;padding-left:25px;}
+.benefits h4:after{content:"\f101";position:absolute;top:15px;left:0;font-family:fontawesome;color:#001173;font-size:24px;}
+.white-text{color:#fff !important}
+.book-a-session{width:100%;background:#f2f8ff;float:left;}
+.book-a-session img{width:100%;}
+.sub-heading{font-size:34px;font-weight:600}
+.book-a-session .list{display:inline-block;margin-top:10px;padding-left:20px;margin-bottom:0}
+.book-a-session .section-padding{padding-bottom:0px;}
+.book-a-session .list li{font-size:20px;font-weight:400;margin-bottom:15px;}
+.book-a-session .list li:last-child{margin-bottom:}
+.covering{display:flex;align-items:flex-end;flex-wrap: wrap;}
+.covering h5{font-size:20px;font-weight:600;margin-top:0}
+.covering .discount{width:100%;display:inline-block;margin-top:20px;padding-bottom:65px;}
+.covering .discount h5{margin-bottom:5px;}
+.covering .discount span{font-size:18px;}
+
+/* select 2 cusotm css */
+.select2-container--default .select2-selection--single{background: transparent!important;border: none !important;border-bottom: 2px solid #fff !important;border-radius: 0 !important;}
+.select2-container--default .select2-selection--single .select2-selection__rendered{color:#fff !important}
+.select2-container--default .select2-selection--single .select2-selection__arrow b{border-color:#fff transparent transparent transparent !important}
+.select2-container--default .select2-results__option--highlighted[aria-selected]{background:#001173 !important}
+.datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover{background:-webkit-linear-gradient(top,#182eab,#001173) !important}
+
+@media(min-width: 1200px){
+	/* .reqst{overflow-y: auto;} */
+	.reqst-img h1, .reqst-img h5{color:#fff;}
+	.reqst-img h5 span{color: #001173;}
+	.offer-text{color:#fff}
+	.reqst-img p{color:#fff}
+}
+@media (max-width:1200px){
+	.reqst-img, .banner-img{height:auto;display:inline-block;padding:0}
+	.banner-img:after{display:none}
+	.banner-img .slider-heading{color:#333}
+	.slider-content-wrapper{padding:65px 0}
+	.slider-content-wrapper .slider-form-fields{position:relative}
+	.mobile-banner{display:block;width:100%;}
+	.mobile-banner img{width:100%;}
+ 	.reqst-img, .banner-img{background:#fff} 
+	.reqst, .form-fields{height:auto; max-height:inherit;}
+	#freeSlotList{max-height:225px;overflow-y:auto;overflow-x: hidden;}
+ }
+@media (max-width: 1200px){
+	.rgba-color{background:transparent;margin-bottom:0;padding-bottom:0}
+	.inr-page .rgba-color h1{color:#001173; font-size: 30px;line-height:36px;font-weight:600;text-align:left}
+	.inr-page .rgba-color h5{font-size:24px;font-weight:600;line-height:28px;margin-bottom:0}
+	.points-wrapper h5, .points li, .offer-text{color:#3C4858;font-weight:400}
+	.offer-text span b{color:#001173; }
+	.time-slot .form-check{justify-content:center}
+ 	.slider-form{position:inherit;right:inherit;top:inherit;transform: inherit;margin:20px 0;padding:0 15px;max-width:inherit}
+
+ }
+ @media(max-width:990px){
+ 	.banner-img .slider-heading, .section-heading{text-align:center; font-size:30px;line-height:36px;margin-bottom:35px;padding:0}
+ 	.slider-content-wrapper .slider-form-fields{max-width:100%;}
+ 	.section-padding, .slider-content-wrapper{padding:25px 0;}
+ 	.covering img{display:none}
+ 	.benefits img{display:inline-block;margin-bottom:25px;}
+ 	.benefits > div:first-child{order:2}
+ 	.benefits > div:nth-child(2){order:1}
+ 	.benefits > div:last-child{order:3}
+ 	.benefits h4{padding:0px;margin:10px 0 0 0;padding-left:25px;}
+ 	.benefits h4:after{top:0px;}
+ 	.covering .discount{padding-bottom:25px;}
+ 	.sub-heading{font-size:24px;}
+ 	.book-a-session .list{margin-top:0}
+ 	.whatsapp-icon{float:none;position:inherit;left:inherit;top:inherit;right:inherit}
+ }
+ @media(max-width:768px){
+ .main .container{margin-bottom:0}
+ }
+@media (max-width: 510px){
+ 	.tab-view{padding:0%}
+    /* .reqst-img{height: 200px;min-height: inherit;background-size: cover; display: inline-block;} */
+    .inr-page .rgba-color h1{font-size: 24px;line-height:28px;font-weight:600}
+    .reqst-img h5{font-size:20px;line-height:24px;}
+    .main .container{margin-bottom:0 !important}
+    .call-and-whatsapp span{width:100%;display:inline-block} 
+    .demo-footer a, .demo-contact span{color:#001173 !important}
+    .text-center-mob{text-align:center}
+ }

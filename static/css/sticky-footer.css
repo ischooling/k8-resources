@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: relative;
+  bottom: -60px !important;
+  width: 100%;
+  background-color: #464646;
+  height:auto; 
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+
