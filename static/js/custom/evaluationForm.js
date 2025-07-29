@@ -197,6 +197,8 @@ function callForEvaluationProgramPayment(formId, moduleId) {
 					var ccAvenueData = data['ccAvenueData']
 					var pgUrl=ccAvenueData.gatewayUrl+'&encRequest='+ccAvenueData.encRequest+'&access_code='+ccAvenueData.accessCode;
 					goAhead(pgUrl,'');
+				}else if(data['hdfcResponse']!=null){
+					window.location.replace(data['hdfcResponse'].redirectUrl);
 				}
 			}
 		}

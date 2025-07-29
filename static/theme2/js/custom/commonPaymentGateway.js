@@ -70,13 +70,7 @@ function callCommonPaymentGateway(formId, module, args, callCommonPaymentGateway
 				showModalMessage(0, data['message']);
 			} else {
 				showModalMessage(1, data['message']);
-				if(data['paymentGateway']=='RAZORPAY'){
-					prepareSmoovPayDataAndPost(data['razorPayData']);
-				}else if(data['paymentGateway']=='SMOOVPAY'){
-					prepareSmoovPayDataAndPost(data['smoovPayData']);
-				}else{
-					window.location.replace(data['extra']);
-				}
+				window.location.replace(data['extra']);
 			}
 			return false;
 		}
@@ -219,29 +213,6 @@ function getRequestForCommonPayment(formId, module, args, eligiblePaymentGateway
 	request['requestData'] = requestData;
 	
 	return request;
-}
-
-function prepareSmoovPayDataAndPost(smoovPayData){
-	$("#smoovpayForm").attr("action", smoovPayData['endPoint']);
-	$("#smoovpayForm input[name*='action']" ).val(smoovPayData['action']);
-	$("#smoovpayForm input[name*='currency']" ).val(smoovPayData['currency']);
-	$("#smoovpayForm input[name*='version']" ).val(smoovPayData['version']);
-	$("#smoovpayForm input[name*='item_name_1']" ).val(smoovPayData['itemName1']);
-	$("#smoovpayForm input[name*='item_description_1']" ).val(smoovPayData['itemDescription1']);
-	$("#smoovpayForm input[name*='item_quantity_1']" ).val(smoovPayData['itemQuantity1']);
-	$("#smoovpayForm input[name*='item_amount_1']" ).val(smoovPayData['itemAmount1']);
-	$("#smoovpayForm input[name*='merchant']" ).val(smoovPayData['merchant']);
-	$("#smoovpayForm input[name*='ref_id']" ).val(smoovPayData['refId']);
-	$("#smoovpayForm input[name*='delivery_charge']" ).val(smoovPayData['deliveryCharge']);
-	$("#smoovpayForm input[name*='tax_amount']" ).val(smoovPayData['taxAmount']);
-	$("#smoovpayForm input[name*='tax_percentage']" ).val(smoovPayData['taxPercentage']);
-	$("#smoovpayForm input[name*='total_amount']" ).val(smoovPayData['totalAmount']);
-	$("#smoovpayForm input[name*='str_url']" ).val(smoovPayData['strUrl']);
-	$("#smoovpayForm input[name*='success_url']" ).val(smoovPayData['successUrl']);
-	$("#smoovpayForm input[name*='cancel_url']" ).val(smoovPayData['cancelUrl']);
-	$("#smoovpayForm input[name*='signature']" ).val(smoovPayData['signature']);
-	$("#smoovpayForm input[name*='signature_algorithm']" ).val(smoovPayData['signatureAlgorithm']);
-	$("#smoovpayForm").submit();
 }
 
 function callStudentWireTransferPayment(paymentOption, userId, moduleId, callingFrom,paymentByUserId){
@@ -401,4 +372,60 @@ function callStudentTransferSubmit(paymentOption, callingFrom, paymentByUserId){
 	$('#cancelStudentPayment').attr("onclick","$('#callPaymentStudentModal').modal({backdrop: 'static', keyboard: false});");
 	$('#callPaymentStudentModal').modal('hide');
 	$('#reference_number').modal('show');
+}
+
+
+function tryPayment(formId, gatewayName, userId, userPaymentDetailsId){
+	hideModalMessage('');
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : getURLForHTML('','pay/'+gatewayName+'/'+userId+'/'+userPaymentDetailsId),
+		dataType : 'json',
+		success : function(data) {
+			if (data['status'] == '0' || data['status'] == '2' || data['status'] == '3') {
+				if ( data['status'] == '3') {
+					redirectLoginPage();
+				}else{
+					showModalMessage(0, data['message']);
+				}
+			} else {
+				// showModalMessage(1, data['message']);
+				var details = data.details;
+				var pgData = details.pgData;
+				if(pgData['pgName']=='RAZORPAY'){
+					var options = {
+						"key": pgData.key,
+						"amount": pgData.amount,
+						"currency": "INR",
+						"order_id":pgData.orderId,
+						"name": pgData.name,
+						"description": pgData.description,
+						"callback_url": pgData.successUrl,
+						"prefill": {
+							"name": pgData.payerName,
+							"email": pgData.payerEmail,
+							"contact": pgData.payerContact
+						},
+						"notes": {
+							"address": "6 New Shreyas,  Opp Jain Temple, Tagore Park Sarvapalli Radhakrishna Ambawadi Ahmedabad- 380015"
+						},
+						"theme": {
+							"color": "#F37254"
+						}
+					};
+					var rzp1 = new Razorpay(options);
+					rzp1.open();
+				}else if(pgData['pgName']=='CCAVENUE'){
+					$('#ccavenueForm').attr('action',pgData.gatewayUrl+'&encRequest='+pgData.encRequest+'&access_code='+pgData.accessCode);
+					$('#ccavenueForm').submit();
+				}else if(pgData['pgName']=='HDFC'){
+					window.location.replace(pgData.redirectUrl);
+				}else{
+					window.location.replace(pgData.gatewayUrl);
+				}
+			}
+			return false;
+		}
+	});
 }

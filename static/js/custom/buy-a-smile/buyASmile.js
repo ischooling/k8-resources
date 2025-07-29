@@ -322,11 +322,7 @@ function callCommonPaymentGatewaySmile(formId, module, args, callCommonPaymentGa
 				showMessageBAS('serverError', data['message']);
 			} else {
 				showMessageBAS('serverError', data['message']);
-				if(data['paymentGateway']=='SMOOVPAY'){
-					prepareSmoovPayDataAndPostSmile(data['smoovPayData']);
-				}else{
-					window.location.replace(data['extra']);
-				}
+				window.location.replace(data['extra']);
 			}
 			return false;
 		},
@@ -363,27 +359,4 @@ function getRequestForCommonPayment(formId, module, args, eligiblePaymentGateway
 function validateEmail(email) {
 	var expr = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 	return expr.test(email);
-}
-function prepareSmoovPayDataAndPostSmile(smoovPayData){
-	$("#smoovpayForm").attr("action", smoovPayData['endPoint']);
-	$("#smoovpayForm input[name*='action']" ).val(smoovPayData['action']);
-	$("#smoovpayForm input[name*='currency']" ).val(smoovPayData['currency']);
-	$("#smoovpayForm input[name*='version']" ).val(smoovPayData['version']);
-	$("#smoovpayForm input[name*='item_name_1']" ).val(smoovPayData['itemName1']);
-	$("#smoovpayForm input[name*='item_description_1']" ).val(smoovPayData['itemDescription1']);
-	$("#smoovpayForm input[name*='item_quantity_1']" ).val(smoovPayData['itemQuantity1']);
-	$("#smoovpayForm input[name*='item_amount_1']" ).val(smoovPayData['itemAmount1']);
-	$("#smoovpayForm input[name*='merchant']" ).val(smoovPayData['merchant']);
-	$("#smoovpayForm input[name*='ref_id']" ).val(smoovPayData['refId']);
-	$("#smoovpayForm input[name*='delivery_charge']" ).val(smoovPayData['deliveryCharge']);
-	$("#smoovpayForm input[name*='tax_amount']" ).val(smoovPayData['taxAmount']);
-	$("#smoovpayForm input[name*='tax_percentage']" ).val(smoovPayData['taxPercentage']);
-	$("#smoovpayForm input[name*='total_amount']" ).val(smoovPayData['totalAmount']);
-	$("#smoovpayForm input[name*='str_url']" ).val(smoovPayData['strUrl']);
-	$("#smoovpayForm input[name*='success_url']" ).val(smoovPayData['successUrl']);
-	$("#smoovpayForm input[name*='cancel_url']" ).val(smoovPayData['cancelUrl']);
-	$("#smoovpayForm input[name*='signature']" ).val(smoovPayData['signature']);
-	$("#smoovpayForm input[name*='signature_algorithm']" ).val(smoovPayData['signatureAlgorithm']);
-//	alert($("#smoovpayForm").html());
-	$("#smoovpayForm").submit();
 }

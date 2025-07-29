@@ -864,9 +864,6 @@ function callDashboardPageSchool(moduleId, pageNo, replaceDiv, extraParam) {
     // callForDashboardData('formIdIfAny','student-assign-subject-content?moduleId='+moduleId);
     getContent(moduleId, pageNo, replaceDiv, extraParam);
   }
-  //	else if(pageNo=='12b'){
-  //		callCommonPaymentGateway('paymentForm','student','','SMOOVPAY');
-  //	}
   //Teacher
   else if (pageNo == "teacher-home") {
     callForDashboardData("formIdIfAny", "teacher-content");

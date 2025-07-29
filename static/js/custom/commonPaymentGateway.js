@@ -100,11 +100,7 @@ function callCommonPaymentGateway(formId, module, args, callCommonPaymentGateway
 				showModalMessage(true, data['message']);
 			} else {
 				showModalMessage(false, data['message']);
-				if(data['paymentGateway']=='SMOOVPAY'){
-					prepareSmoovPayDataAndPost(data['smoovPayData']);
-				}else{
-					window.location.replace(data['extra']);
-				}
+				window.location.replace(data['extra']);
 			}
 			return false;
 		}
@@ -287,30 +283,6 @@ function getRequestForCommonPayment(formId, module, args, eligiblePaymentGateway
 	request['requestData'] = requestData;
 	
 	return request;
-}
-
-function prepareSmoovPayDataAndPost(smoovPayData){
-	$("#smoovpayForm").attr("action", smoovPayData['endPoint']);
-	$("#smoovpayForm input[name*='action']" ).val(smoovPayData['action']);
-	$("#smoovpayForm input[name*='currency']" ).val(smoovPayData['currency']);
-	$("#smoovpayForm input[name*='version']" ).val(smoovPayData['version']);
-	$("#smoovpayForm input[name*='item_name_1']" ).val(smoovPayData['itemName1']);
-	$("#smoovpayForm input[name*='item_description_1']" ).val(smoovPayData['itemDescription1']);
-	$("#smoovpayForm input[name*='item_quantity_1']" ).val(smoovPayData['itemQuantity1']);
-	$("#smoovpayForm input[name*='item_amount_1']" ).val(smoovPayData['itemAmount1']);
-	$("#smoovpayForm input[name*='merchant']" ).val(smoovPayData['merchant']);
-	$("#smoovpayForm input[name*='ref_id']" ).val(smoovPayData['refId']);
-	$("#smoovpayForm input[name*='delivery_charge']" ).val(smoovPayData['deliveryCharge']);
-	$("#smoovpayForm input[name*='tax_amount']" ).val(smoovPayData['taxAmount']);
-	$("#smoovpayForm input[name*='tax_percentage']" ).val(smoovPayData['taxPercentage']);
-	$("#smoovpayForm input[name*='total_amount']" ).val(smoovPayData['totalAmount']);
-	$("#smoovpayForm input[name*='str_url']" ).val(smoovPayData['strUrl']);
-	$("#smoovpayForm input[name*='success_url']" ).val(smoovPayData['successUrl']);
-	$("#smoovpayForm input[name*='cancel_url']" ).val(smoovPayData['cancelUrl']);
-	$("#smoovpayForm input[name*='signature']" ).val(smoovPayData['signature']);
-	$("#smoovpayForm input[name*='signature_algorithm']" ).val(smoovPayData['signatureAlgorithm']);
-//	alert($("#smoovpayForm").html());
-	$("#smoovpayForm").submit();
 }
 
 function callStudentWireTransferPayment(paymentOption, userId, moduleId, callingFrom,paymentByUserId){

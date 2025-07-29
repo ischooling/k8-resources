@@ -28,7 +28,7 @@ color:#090909 !important}
 .payment-tabs ul li .payment-option-itme{display: inline-block;width: 100%; padding: 10px;font-size: 14px;background:#fff; border: 1px solid #ff8600;border-right:0;border-radius: 0; color: #ff8600;cursor: pointer;}
 .payment-tabs ul li .payment-option-itme:hover{background:#ecf4ff}
 .payment-tabs ul li:last-child{border-bottom: 0 !important;}
-.payment-tabs .nav-tabs>li.active> a, .payment-tabs .nav-tabs>li> a.active{background:#ff8600;color:#fff;margin: 0 !important;border:0 !important;}
+.payment-tabs .nav-tabs>li.active> a{background:#ff8600;color:#fff;margin: 0 !important;border:0 !important;}
 
 .payment-option-wrapper .payment-option{width: calc(100% - 200px);padding:0 !important}
 .payment-option-wrapper .payment-option .flex-item{border-right:1px solid rgba(233, 233, 233, 0.6);padding:30px;border:1px solid #ff8600;width: 100%;}
