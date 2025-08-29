@@ -1,3 +1,4 @@
+
 function formatDateToMMMDDYYYYForFilter(dateStr) {
   const date = new Date(dateStr);
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -210,22 +211,31 @@ function renderMeetings(meetings) {
              ${meeting.participants}
             </button>
           `}
-        </td>
-        ${USER_ROLE != 'TEACHER' ?
+        </td>`;
+        if(USER_ROLE != 'TEACHER'){
+          meetingsHtml+=
           `<td>
             <button onclick="startLensUrl('${meeting.meetingId}')" style="border: 0; background: transparent; color: #FF8601 !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm"><i style="font-size: 20px;" class="fa fa-play"></i></button>
             <button onclick="copyJoinUrl('${meeting.meetingId}')" style="border: 0; background: transparent; color: darkblue !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm"><i style="font-size: 20px;" class="fa fa-clone"></i></button>
             <button onclick="showMeetingDetails(${meeting.meetingId})" style="border: 0; background: transparent; color: #001173 !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm"><i style="font-size: 20px;" class="fa fa-eye"></i></button>
-            <button onclick="showWarningMessage('Are you sure you want to delete this meeting?', 'deleteMeeting(${meeting.meetingId})')" style="border: 0; background: transparent; color: #DC362E !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm" ${disableButtonsOnStart ? "disabled" : ""}><i style="font-size: 20px;" class="fa fa-trash"></i></button>
-          </td>`
-        :
+            <button onclick="showWarningMessage('Are you sure you want to delete this meeting?', 'deleteMeeting(${meeting.meetingId})')" style="border: 0; background: transparent; color: #DC362E !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm" ${disableButtonsOnStart ? "disabled" : ""}><i style="font-size: 20px;" class="fa fa-trash"></i></button>`;
+            if(isUserAllowed){
+              if(meeting.recordingsCount > 0){
+                meetingsHtml+=
+                `<button onclick="openRecordingModalMettingManagement('${meeting.meetingId}', 'GENERAL_MEETINGS', '${meeting.startDate}', '${meeting.title}', '${meeting.timeRange.split('-')[0]}', '${meeting.hostName}')" style="border: 0; background: transparent; color: #027FFF !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm" title="Play Recording">
+                    <i class="fa fa-video-camera" style="font-size: 20px;"></i>
+                  </button>` 
+              }
+            }    
+          meetingsHtml+=`</td>`
+        }else{
+          meetingsHtml+=
           `<td>
             <button onclick="startLensUrl('${meeting.meetingId}')" style="border: 0; background: transparent; color: #FF8601 !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm"><i style="font-size: 20px;" class="fa fa-play"></i></button>
             <button onclick="copyJoinUrl('${meeting.meetingId}')" style="border: 0; background: transparent; color: darkblue !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm"><i style="font-size: 20px;" class="fa fa-clone"></i></button>
           </td>`
         }
-        
-      </tr>`;
+      meetingsHtml+=`</tr>`;
   });
 
   meetingsHtml += `
@@ -1237,4 +1247,208 @@ function getRequestForHostList(key){
 	request['requestData'] = requestData;
 	request['authentication'] = authentication;
 	return request;
+}
+
+function showMeetingRecordings(entityId) {
+  const { startOfWeek, endOfWeek } = getCurrentWeekDates();
+  var body = {
+    entityId: entityId,
+    meetingStartDate: startOfWeek,
+    meetingEndDate: endOfWeek,
+    limit: 10,
+    pageNo: currentPageRecurringRecording
+  }
+  $.ajax({
+    url: BASE_URL + CONTEXT_PATH + "api/v1/get-event-recordings",
+    type: "POST",
+    data: JSON.stringify(body),
+    contentType: APPLICATION_JSON_VALUE,
+    success: function (response) {
+      var res = JSON.parse(response)
+      try {
+        populateRecordingList(res.data, entityId, startOfWeek, endOfWeek, res.recordingsTotalPages);
+      } catch (error) {
+        console.log("Error Fetching Data:", error);
+        
+      }
+    }
+  });
+}
+
+
+function openRecordingModalMettingManagement(entityId, entityType, meetingStartDate, title, startTime, hostName) {
+  const body = {
+    entityId: entityId,
+    entityName: entityType
+  };
+  $.ajax({
+    type: "POST",
+    url: BASE_URL + CONTEXT_PATH + "api/v1/get-event-recordings",
+    data: JSON.stringify(body),
+    contentType: APPLICATION_JSON_VALUE,
+    success: function (response) {
+      const res = JSON.parse(response);
+      if (res.statusCode === 0 && res.status === "success") {
+        const recordings = res.data.recordingUrls;
+        if (recordings && recordings.length > 0) {
+          populateRecordingModal(recordings, meetingStartDate, title, startTime, hostName);
+        } else {
+          alert("No recordings available.", '', true);
+        }
+      }
+      if (res.statusCode === 2) {
+        alert("Recordings are being processed. Please try again later.", '', true);
+      }
+     },
+     error: function (err) {
+     console.error(0, "Error fetching recordings:", err);
+     alert("Failed to load recordings.", '', true);
+    }
+  }); 
+}
+
+function populateRecordingModal(recordings, meetingStartDate, title, startTime, hostName) {
+  var titles = {
+    "shared_screen_with_speaker_view.mp4": "Shared Screen with Speaker View",
+    "active_speaker.mp4": "Active Speaker",
+    "shared_screen_with_gallery_view.mp4": "Shared Screen With Gallery View",
+    "gallery_view.mp4": "Gallery View",
+    "shared_screen.mp4": "Shared Screen",
+    "shared_screen_with_speaker_view_CC.mp4": "Shared Screen With Speaker View CC",
+    "-1.1.mp4": "Recording",
+    "-1.2.mp4": "Recording 2",
+    "audio_only": "Audio File"
+  };
+
+  var meetingStartDateFormatted = changeDateFormat(new Date(meetingStartDate), "MMM-dd-yyyy");
+
+  var modalContent = '' +
+    '<div id="recordingModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; ' +
+    'background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 9999;">' +
+      '<div style="background: white; border-radius: 12px; overflow: hidden; width: 70%; max-width: 70%;margin: auto; margin-top:50px;">' +
+        '<div class="">' +
+          '<div class="d-flex justify-content-between align-items-center" style="padding: 15px 10px; background: #027FFF;">' +
+            '<h5 class="text-white mb-0" style="font-size: 18px; font-weight: bold;">Available Recordings | ' + title + ' | ' + meetingStartDateFormatted + ' ' + startTime + ' | ' + hostName + '</h5>' +
+            '<button onclick="closeAllVideoModal();" type="button" class="text-white btn btn-sm btn-danger" data-bs-dismiss="modal" aria-label="Close" style="font-size: 20px !important; margin: 0; padding: 0px 8px;">&times;</button>' +
+          '</div>' +
+          '<div class="" style="padding: 20px; height: 70vh; overflow-y: auto">';
+
+  recordings.forEach(function(record) {
+    var meetingId = record.meetingId;
+    var sessionUrls = record.urls.map(function(urlData) {
+      for (var key in titles) {
+        if (urlData.url.indexOf(key) !== -1) {
+          return { url: urlData.url, title: titles[key] };
+        }
+      }
+    }).filter(Boolean);
+
+    var transcriptUrl = record.urls.length > 0 ? record.urls[record.urls.length - 1].url : null;
+
+    if (sessionUrls.length > 0) {
+      modalContent += '' +
+        '<div class="session-block pb-4">' +
+          '<h3 class="mb-3 mt-0">Meeting ID: ' + meetingId + '</h3>';
+
+      sessionUrls.forEach(function(recording, index) {
+        modalContent += '' +
+          '<div class="recording-item pb-3 pt-2 px-3 d-flex justify-content-between align-items-center" style="border-bottom:1px solid #eee;">' +
+            '<h4>' + (index + 1) + '. ' + recording.title + '</h4>' +
+            '<div>' +
+                '<button class="btn btn-sm rounded" style="background-color: #027FFF; border: 1px solid #027FFF;" onclick="playRecordingMeetingManagement(\'' + recording.url + '\', \'' + recording.title + '\')">Play</button>' +
+                '<button onclick="copyToClipboardSignedUrl(\'' + recording.url + '\')" style="border:0; background:transparent; color:darkblue; padding:5px;" class="btn btn-sm">' +
+                  '<i style="font-size:20px;" class="fa fa-clone"></i>' +
+                '</button>' +
+                '<div id="toast" style="visibility: hidden;min-width: 120px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 8px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000;">Copied!</div>' +
+            '</div>' +
+          '</div>';
+      });
+
+      if (transcriptUrl) {
+        modalContent += '' +
+          '<div class="recording-item pb-3 pt-2 px-3 d-flex justify-content-between align-items-center" style="border-bottom:1px solid #eee;">' +
+            '<h4>' + (sessionUrls.length + 1) + '. Transcript</h4>' +
+            '<button class="btn btn-sm bg-white rounded" style="border: 1px solid #000; color: #000;" onclick="showVTTFile(\'' + transcriptUrl + '\', \'Transcript\')">Read</button>' +
+          '</div>';
+      }
+
+      modalContent += '</div>';
+    }
+  });
+
+  modalContent += '' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  var modalElement = $("#recordingModal");
+  if (modalElement.length > 0) {
+    modalElement.remove();
+  }
+
+  $("body").append(modalContent);
+  $("#recordingModal").modal("show");
+}
+
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.visibility = "visible";
+
+    setTimeout(() => {
+      toast.style.visibility = "hidden";
+    }, 2500);
+  }
+
+
+
+function playRecordingMeetingManagement(videoUrl, title) {
+  var videoModal = $("#videoModal");
+  $.ajax({
+    type: "POST",
+    contentType: APPLICATION_JSON_VALUE,
+    dataType: 'json',
+    url: getURLForSignVideo(videoUrl),
+    data: JSON.stringify({
+      url: videoUrl
+    }),
+    success: function (responseData) {
+      if (responseData.status == 0) {
+        const signedUrl = responseData.url;
+        recordingTitle = title;
+        if (videoModal.length == 0) {
+          $("body").append(`
+            <div id="videoModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+              <div style="background: white; border-radius: 12px; overflow: hidden; width: 70%; max-width: 70%;margin: auto; margin-top:50px;">
+                <div class="">
+                  <div class="d-flex justify-content-between align-items-center" style="padding: 15px 10px; background: #027FFF;">
+                    <h5 class="text-white mb-0" style="font-size: 18px; font-weight: bold;">${recordingTitle}</h5>
+                    <button onclick="closeVideoModal();" type="button" class="text-white btn btn-sm btn-danger" data-bs-dismiss="modal" aria-label="Close" style="font-size: 20px !important; margin: 0; padding: 0px 8px;">&times;</button>
+                  </div>
+                  <div class="" style="padding: 20px;">
+                    <video class="videoTag w-100" style="height: 70vh; overflow-y: auto;" controls>
+                      <source src="${signedUrl}" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `);
+        } else {
+          videoModal.find(".modal-title").text(title);
+          videoModal.find(".videoTag source").attr("src", signedUrl);
+          videoModal.find(".videoTag")[0]?.load();
+        }
+
+        $("#videoModal").modal("show");
+      } else {
+        alert(responseData.message || "Failed to fetch video URL", '', true);
+      }
+
+      customLoader(false);
+    }
+  });
 }

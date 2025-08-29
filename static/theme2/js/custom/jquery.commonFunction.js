@@ -1,3 +1,4 @@
+var APPLICATION_JSON_VALUE = 'application/json';
 var API_VERSION = CONTEXT_PATH+UNIQUEUUID+'/'+'api/v1/';
 var API_VERSION_WITHOUT_UNIQUEID = CONTEXT_PATH+'/'+'api/v1/';
 var GLOBAL_EMAIL = '';
@@ -2513,4 +2514,165 @@ function copyLink(src) {
             $(src).parent().find(".copy-msg").text("")
         }, 3000) 
     }
+}
+
+function getSettingsByTypeAndKey(type, key) {
+  var responseData = {};
+  $.ajax({
+    url:
+      BASE_URL +
+      CONTEXT_PATH +
+      `api/v1/get-setting?metaType=${type}&metaKey=${key}`,
+    method: "GET",
+    contentType: APPLICATION_JSON_VALUE,
+    async: false,
+    success: function (response) {
+      responseData = response;
+    }
+  });
+  return responseData;
+}
+
+const allowedUsers = getSettingsByTypeAndKey('CONFIGURATION','ALLOW_SEEING_ALL_MEETINGS_RECORDINGS');
+var allowedUserIds = JSON.parse(allowedUsers).data.metaValue.split(",").map(id => id.trim());
+const isUserAllowed = allowedUserIds.includes(USER_ID.toString());
+
+function getSignedUrlForCopyClipboard(videoUrl) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: BASE_URL + CONTEXT_PATH + "/videos/signed-url",
+        type: "POST",
+        data: JSON.stringify({ url: videoUrl }),
+        contentType: "application/json",
+        success: function(response) {
+          resolve(response); 
+        },
+        error: function(err) {
+          reject(err);
+        }
+      });
+    });
+}
+
+async function copyToClipboardSignedUrl(videoUrl) {
+	try {
+	  const signedUrlResponse = await getSignedUrlForCopyClipboard(videoUrl);
+	  const parsed = JSON.parse(signedUrlResponse);
+	  const finalUrl = parsed.url;
+	  await navigator.clipboard.writeText(finalUrl);
+	  showToast("Copied!");
+	} catch (err) {
+	  showToast("Failed to copy!");
+	}
+}
+
+function getURLForSignVideo() {
+	return BASE_URL + CONTEXT_PATH + "videos/signed-url";
+}
+  
+function getURLForTranscriptContent(transcriptUrl) {
+	return BASE_URL + CONTEXT_PATH + "transcript/show-content";
+}
+  
+function convertToVTT(videoUrl) {
+	if (!videoUrl.endsWith(".mp4")) {
+	  return null;
+	}
+	const urlParts = new URL(videoUrl);
+	const filePath = urlParts.pathname.replace(
+	  /\/([^\/]+)-(\d+\.\d+)\.mp4$/,
+	  "/$1-transcript-$2.vtt"
+	);
+	let transcriptUrl = urlParts.origin + filePath;
+  
+	if (transcriptUrl === videoUrl) {
+	  const prefixUrl = "https://ischoolingwise.s3.us-east-1.amazonaws.com/recordings/";
+	  const sessionId = videoUrl.split(prefixUrl)[1].split("-")[0];
+	  transcriptUrl = prefixUrl + sessionId + "-transcript-1.1.vtt";
+	}
+	return transcriptUrl;
+}
+  
+function displayVTT(content, title) {
+	const output = $("#transcript-modal-body");
+	output.empty();
+  
+	if (content.includes("<Error><Code>")) {
+	  output.append('<p style="font-size: 18px;">No Transcript Available</p>');
+	} else {
+	  var lines = content.split("\n");
+	  lines.forEach(function(line) {
+		var p = $("<p></p>").text(line);
+		output.append(p);
+	  });
+	}
+  
+	$("#transcriptModalTitle").html(title);
+	$("#transcriptModal").modal("show");
+}
+  
+function showVTTFile(url, title) {
+	let transcriptModal = $("#transcriptModal");
+
+	if (transcriptModal.length === 0) {
+		$("body").append(
+		'<div id="transcriptModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">' +
+			'<div style="background: white; border-radius: 12px; overflow: hidden; width: 70%; max-width: 70%;margin: auto; margin-top:50px;">' +
+			'<div style="height: 100%; display: flex; flex-direction: column;">' +
+				'<div class="d-flex justify-content-between align-items-center" style="padding: 15px 10px; background: #027FFF;">' +
+				'<h5 id="transcriptModalTitle" class="text-white mb-0" style="font-size: 18px; font-weight: bold;">' + title + '</h5>' +
+				'<button type="button" class="text-white btn btn-sm btn-danger" data-bs-dismiss="modal" aria-label="Close" style="font-size: 20px !important; margin: 0; padding: 0px 8px;" onclick="closeTranscriptModal();">&times;</button>' +
+				'</div>' +
+				'<div id="transcript-modal-body" class="text-left" style="flex-grow: 1; padding: 20px; height: 70vh; overflow-y: auto;">' +
+				'<!-- Transcript content will be populated here -->' +
+				'</div>' +
+			'</div>' +
+			'</div>' +
+		'</div>'
+		);
+	}
+
+	customLoader(true);
+	const vttFile = convertToVTT(url);
+	$.ajax({
+		type: "POST",
+		contentType: APPLICATION_JSON_VALUE,
+		dataType: 'json',
+		url: getURLForTranscriptContent(),
+		data: JSON.stringify({
+			url: vttFile
+		}),
+		success: function(responseData) {
+			customLoader(false);
+			displayVTT(responseData.content, title);
+		}
+	});
+}
+  
+function closeAllVideoModal() {
+	$("#recordingModal").modal("hide");
+}
+  
+function closeVideoModal() {
+	const videoElement = $("#videoModal .videoTag")[0];
+	if (videoElement) {
+		videoElement.pause();
+		videoElement.currentTime = 0;
+	}
+	$("#videoModal").modal("hide");
+	$("#videoModal").remove();
+}
+  
+function closeTranscriptModal() {
+	$("#transcriptModal").modal("hide");
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.visibility = "visible";
+
+    setTimeout(() => {
+      toast.style.visibility = "hidden";
+    }, 2500);
 }

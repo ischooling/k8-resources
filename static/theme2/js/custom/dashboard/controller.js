@@ -36,7 +36,7 @@ function getContent(moduleId, pageNo, replaceDiv, extraParam){
 			}
 		}
 		console.log('original pdf '+pdfUrl);
-		// if(ENVIRONMENT=='dev'){
+		// if(ENVIRONMENT=='LOCAL'){
 			// pdfUrl = APP_BASE_URL+'/static/theme2/images/FlipBookPDF/RealEnglishGrade08.pdf';
 			// pdfUrl = APP_BASE_URL+'/static/theme2/images/FlipBookPDF/ESEC-01-book-compressed.pdf';
 			// console.log('original pdf '+pdfUrl);
@@ -130,7 +130,7 @@ function getContent(moduleId, pageNo, replaceDiv, extraParam){
 			studentTeacherValidDate('studentTeacherValidDate');
 		});
 		teacherReportByDate('studentTeacherValidDate');
-		if(ENVIRONMENT=='dev'){
+		if(ENVIRONMENT=='LOCAL'){
 			$('#studentAssignedReportFilter #officialEmail').val('devaleenaray@gmail.com');//FOR TESTING PURPOSES ONLY
 		}
 	}else if(pageNo=='manage-session'){
@@ -164,7 +164,6 @@ function getContent(moduleId, pageNo, replaceDiv, extraParam){
 		getUserList('LMSTblList','for_sms',extraParam, 'IDS_LIST',roleAndModule.moduleId);
 	}else if(pageNo=='common-notes'){
 		$('#dashboardContentInHTML').html(getNoteContent('Users',roleAndModule,SCHOOL_ID,USER_ID,USER_ROLE));
-		debugger
 		if(USER_ROLE != 'SCHOOL_ADMIN'){
 			getNotes(USER_ID,"notesTable");
 		}else{
