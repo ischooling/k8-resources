@@ -133,17 +133,17 @@ function generateBookUrl(pdfUrl, pageNumber, totalNumOFPages){
 }
 
 function generateSequenceNumber(pageNumber, totalNumOFPages, extension){
-  if(parseInt(totalNumOFPages)<=10){
+  if(parseInt(totalNumOFPages)<10){
     if(pageNumber<10){
       return '-'+pageNumber+extension;
     }
-  }else if(parseInt(totalNumOFPages)<=100){
+  }else if(parseInt(totalNumOFPages)<100){
     if(pageNumber<10){
       return '-0'+pageNumber+extension;
     }else if(pageNumber<100){
       return '-'+pageNumber+extension;
     }
-  }else if(parseInt(totalNumOFPages)<=1000){
+  }else if(parseInt(totalNumOFPages)<1000){
     if(pageNumber<10){
       return '-00'+pageNumber+extension;
     }else if(pageNumber<100){
