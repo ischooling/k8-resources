@@ -1,6 +1,6 @@
-//ENVIRONMENT = 'dev';
+//ENVIRONMENT = 'LOCAL';
 TICKET_BASE_URL = '';
-if (ENVIRONMENT == 'dev') {
+if (ENVIRONMENT == 'LOCAL') {
 	TICKET_BASE_URL = 'http://localhost:8127/service-ticketing/';
 	TICKET_BASE_URL = 'http://164.52.198.42:9090/service-ticketing/';
 } else if (ENVIRONMENT == 'dev-staging') {

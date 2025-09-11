@@ -1177,7 +1177,7 @@ function getRequestForSaveJoinLinkInfo(formId, meetingId){
 	var requestData = {};
 	var batchDTO = {};
 	batchDTO['userId'] = $("#"+formId+" #userId").val();
-	batchDTO['joinMeetingId'] = meetingId;
+	batchDTO['joinMeetingId'] = (meetingId !== undefined && meetingId !== null) ? meetingId : 0;
 	batchDTO['controllType'] = "add";
 	batchDTO['joinEntityCode'] = $("#"+formId+" #teacherCode").val();
 	batchDTO['schoolId'] = SCHOOL_ID;

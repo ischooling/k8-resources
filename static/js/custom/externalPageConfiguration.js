@@ -12,7 +12,7 @@ if (ENVIRONMENT == 'uat') {
 	BASE_URL = 'http://164.52.198.42:8080/';
 } else if (ENVIRONMENT == 'uat2') {
 	BASE_URL = 'http://164.52.198.42:9090/';
-} else if (ENVIRONMENT == 'dev') {
+} else if (ENVIRONMENT == 'LOCAL') {
 	BASE_URL = 'http://localhost:8080/';
 } else if (ENVIRONMENT == 'staging') {
 	BASE_URL = 'http://164.52.198.42:8070/';

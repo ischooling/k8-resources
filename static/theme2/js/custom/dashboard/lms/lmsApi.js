@@ -74,7 +74,7 @@ function getPrepareLmsJsondata(type, data){
 					localStorage.setItem('lmsProviderSSOUrl',data['lmsProviderSSOUrl']);
 					if(v['lmsProviderSSOUrl']!=undefined){
 						LMS_API_BASE_URL=v['lmsProviderSSOUrl'];
-						if(ENVIRONMENT=='dev'){
+						if(ENVIRONMENT=='LOCAL'){
 						 	// LMS_API_BASE_URL='http://localhost:9000/api/v1';
 						}
 						// LMS_API_BASE_URL='https://sms.k8school.com/lms/api/v1';

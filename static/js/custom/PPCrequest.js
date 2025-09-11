@@ -61,7 +61,7 @@ function callForPPCRequestForm(formId, moduleId,folderName) {
         				url = 'http://164.52.198.42:8080/k8school/common/ppc-request-thank-you';
         			}else if(ENVIRONMENT=='uat2'){
         				url = 'http://164.52.198.42:9090/k8school/common/ppc-request-thank-you';
-        			}else if(ENVIRONMENT=='dev'){
+        			}else if(ENVIRONMENT=='LOCAL'){
         				url = 'http://localhost:8080/k8school/common/ppc-request-thank-you';
         			}else if(ENVIRONMENT=='staging'){
         				url = 'http://164.52.198.42:8070/k8school/common/ppc-request-thank-you';
