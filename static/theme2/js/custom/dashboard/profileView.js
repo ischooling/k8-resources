@@ -332,8 +332,14 @@ function applyChanges(src, keyId,userId,roleModuleId,moduleId){
 		fieldValue = toTitleCase(fieldValue);
 	}
 	hideMessageTheme2('');
-	if(!validateFields(keyId,fieldValue)){
-		return false;
+	if (keyId !== 'studentMiddleName' && 
+		keyId !== 'fatherMiddleName' && 
+		keyId !== 'motherMiddleName' && 
+		keyId !== 'guardianMiddleName') {
+		
+		if (!validateFields(keyId, fieldValue)) {
+			return false;
+		}
 	}
 	  $.ajax({
 			type : "POST",

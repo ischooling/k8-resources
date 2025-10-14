@@ -94,7 +94,7 @@ function callForPPCRequestForm(formId, moduleId, folderName) {
           var url = "";
           if (ENVIRONMENT == "uat") {
             url =
-              "http://164.52.198.42:8080/k8school/common/ppc-request-thank-you";
+              "http://164.52.209.182:8070/k8school/common/ppc-request-thank-you";
           } else if (ENVIRONMENT == "uat2") {
             url =
               "http://164.52.198.42:9090/k8school/common/ppc-request-thank-you";
@@ -722,7 +722,7 @@ function callForRequestDemoForm(formId, moduleId, folderName) {
         }
         if (ENVIRONMENT == "uat") {
           url =
-            "http://164.52.198.42:8080/k8school/common/book-a-demo-thank-you/" +
+            "http://164.52.209.182:8070/k8school/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "uat2") {
           url =
@@ -875,7 +875,7 @@ function callForInquiryForm(formId, moduleId, folderName) {
         }
         if (ENVIRONMENT == "uat") {
           url =
-            "http://164.52.198.42:8080/k8school/common/book-a-demo-thank-you/" +
+            "http://164.52.209.182:8070/k8school/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "uat2") {
           url =
