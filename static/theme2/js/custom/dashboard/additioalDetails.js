@@ -4,7 +4,6 @@ function additionalModel(moduleId){
 	}
 }
 function getAdditionalDetails(userId,divId, rf){
-	console.log(userId);
     $.ajax({
         type : "GET",
         url : getURLForHTML('dashboard','student/get-additional-details?userId='+userId+'&rf='+rf),
