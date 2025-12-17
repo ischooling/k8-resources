@@ -419,7 +419,7 @@ function proceedwithActivityControll(response){
 			redirectLoginPage();
 		}else{
             $('#classJoinInSameWindowModal').modal({backdrop: 'static', keyboard: false});
-            $('#classJoinInSameWindowBody').html(calendarMeetingLinkValidateActivity(response['message']));
+            $('#classJoinInSameWindowBody').html(calendarMeetingLinkValidateActivity(response['message'],response));
         }
     }else{
         var classUrl=response['redirectUrl'];
@@ -634,7 +634,7 @@ function calendarMeetingLinkValidate(){
 	
 	return html;
  }
- function calendarMeetingLinkValidateActivity(message){
+ function calendarMeetingLinkValidateActivity(message,response){
 	var html=
 	`<div id="classJoinWaringDiv">`
         if(tt != 'theme1'){
