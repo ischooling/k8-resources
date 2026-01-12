@@ -61,6 +61,7 @@ function getRequestForCreateBatchByStudent(formId, roleModuleId){
 	batchDTO['classRoomLink'] = $("#"+formId+" #batchLink").val();
 	batchDTO['meetingVendor'] = $("#"+formId+" #meetingVendor").val();
 	batchDTO['joiningType'] = $("#"+formId+" #joiningType").val();
+	batchDTO['enableRegistration'] = $("#" + formId + " #enableRegistration").val() === "true";
 	batchDTO['enableLms']=$("#"+formId+" #enableLms").val();
 	batchDTO['courseProId']=$("#"+formId+" #courseProvider").val();
 	requestData['batchDTO'] = batchDTO;
@@ -841,6 +842,7 @@ function getRequestForEditBatchDetails(formId, moduleId){
 	batchDTO['afterPeriod'] = $("#"+formId+" #afterPeriod").val();
 	batchDTO['classRoomLink'] = $("#"+formId+" #batchLink").val();
 	batchDTO['meetingVendor'] = $("#"+formId+" #meetingVendor").val();
+	batchDTO['enableRegistration'] = $("#" + formId + " #enableRegistration").val() === "true";
 	batchDTO['joiningType'] = $("#"+formId+" #joiningType").val();
 	batchDTO['schoolId'] = SCHOOL_ID;
 	requestData['batchDTO'] = batchDTO;

@@ -2533,9 +2533,8 @@ function getSettingsByTypeAndKey(type, key) {
   return responseData;
 }
 
-const allowedUsers = getSettingsByTypeAndKey('CONFIGURATION','ALLOW_SEEING_ALL_MEETINGS_RECORDINGS');
 var allowedUserIds = JSON.parse(allowedUsers).data.metaValue.split(",").map(id => id.trim());
-const isUserAllowed = allowedUserIds.includes(USER_ID.toString());
+var isUserAllowed = allowedUserIds.includes(USER_ID.toString());
 
 function getSignedUrlForCopyClipboard(videoUrl) {
     return new Promise((resolve, reject) => {
@@ -2612,41 +2611,67 @@ function displayVTT(content, title) {
 }
   
 function showVTTFile(url, title) {
-	let transcriptModal = $("#transcriptModal");
+  let transcriptModal = $("#transcriptModal");
 
-	if (transcriptModal.length === 0) {
-		$("body").append(
-		'<div id="transcriptModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">' +
-			'<div style="background: white; border-radius: 12px; overflow: hidden; width: 70%; max-width: 70%;margin: auto; margin-top:50px;">' +
-			'<div style="height: 100%; display: flex; flex-direction: column;">' +
-				'<div class="d-flex justify-content-between align-items-center" style="padding: 15px 10px; background: #027FFF;">' +
-				'<h5 id="transcriptModalTitle" class="text-white mb-0" style="font-size: 18px; font-weight: bold;">' + title + '</h5>' +
-				'<button type="button" class="text-white btn btn-sm btn-danger" data-bs-dismiss="modal" aria-label="Close" style="font-size: 20px !important; margin: 0; padding: 0px 8px;" onclick="closeTranscriptModal();">&times;</button>' +
-				'</div>' +
-				'<div id="transcript-modal-body" class="text-left" style="flex-grow: 1; padding: 20px; height: 70vh; overflow-y: auto;">' +
-				'<!-- Transcript content will be populated here -->' +
-				'</div>' +
-			'</div>' +
-			'</div>' +
-		'</div>'
-		);
-	}
+  if (transcriptModal.length === 0) {
+  $("body").append(
+    '<div id="transcriptModal" style="position:fixed; top:0; left:0; width:100%; height:100%; ' +
+    'background:rgba(0,0,0,0.5); z-index:10000;">' +
 
-	customLoader(true);
-	const vttFile = convertToVTT(url);
-	$.ajax({
-		type: "POST",
-		contentType: APPLICATION_JSON_VALUE,
-		dataType: 'json',
-		url: getURLForTranscriptContent(),
-		data: JSON.stringify({
-			url: vttFile
-		}),
-		success: function(responseData) {
-			customLoader(false);
-			displayVTT(responseData.content, title);
-		}
-	});
+      '<div style="position:fixed; top:50%; left:50%; ' +
+      'transform:translate(-50%, -50%); ' +
+      'background:white; border-radius:12px; overflow:hidden; ' +
+      'width:70%; max-width:70%;">' +
+
+        '<div>' +
+
+          '<div class="d-flex justify-content-between align-items-center" ' +
+          'style="padding:15px 10px; background:#027FFF;">' +
+
+            '<h5 class="text-white mb-0" style="font-size:18px; font-weight:bold;">' +
+              title +
+            '</h5>' +
+
+            '<div class="d-flex align-items-center">' +
+              '<button class="btn btn-success btn-sm mr-2" onclick="copyTranscriptWithStatus(this)">' +
+                '<i class="fa fa-copy"></i> Copy' +
+              '</button>' +
+              '<span class="copy-status mr-3" style="font-size:12px;"></span>' +
+              '<button onclick="closeTranscriptModal();" type="button" ' +
+              'class="text-white btn btn-sm btn-danger" style="font-size:20px;">&times;</button>' +
+            '</div>' +
+
+          '</div>' +
+
+          '<div id="transcript-modal-body" ' +
+          'style="padding:20px; height:70vh; overflow-y:auto;">' +
+            '<div class="text-muted">Loading transcript...</div>' +
+          '</div>' +
+
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+  customLoader(true);
+  const vttFile = convertToVTT(url);
+
+  $.ajax({
+    type: "POST",
+    contentType: APPLICATION_JSON_VALUE,
+    dataType: "json",
+    url: getURLForTranscriptContent(),
+    data: JSON.stringify({ url: vttFile }),
+    success: function (res) {
+      customLoader(false);
+      displayVTT(res.content, title);
+    },
+    error: function () {
+      customLoader(false);
+      $("#transcript-modal-body").html("<div class='text-danger'>Failed to load transcript</div>");
+    }
+  });
 }
   
 function closeAllVideoModal() {
@@ -2667,12 +2692,25 @@ function closeTranscriptModal() {
 	$("#transcriptModal").modal("hide");
 }
 
-function showToast(message) {
-    const toast = document.getElementById("toast");
-    toast.textContent = message;
-    toast.style.visibility = "visible";
+function copyTranscriptWithStatus(btn) {
+  const statusSpan = btn.nextElementSibling;
+  const text = document.getElementById("transcript-modal-body")?.innerText || "";
 
-    setTimeout(() => {
-      toast.style.visibility = "hidden";
-    }, 2500);
+  if (!text.trim()) {
+    showStatus(statusSpan, "Failed", "red");
+    return;
+  }
+
+  navigator.clipboard.writeText(text)
+    .then(() => showStatus(statusSpan, "Copied", "lightgreen"))
+    .catch(() => showStatus(statusSpan, "Failed", "red"));
+}
+
+function showStatus(el, msg, color) {
+  el.innerText = msg;
+  el.style.color = color;
+
+  setTimeout(() => {
+    el.innerText = "";
+  }, 2000);
 }

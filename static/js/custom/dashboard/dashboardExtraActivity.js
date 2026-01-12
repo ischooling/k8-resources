@@ -285,6 +285,7 @@ function saveExtraActivityDetails(formId,moduleId, roleModuleId) {
 			extraActivityDetailsDTO['uploadFile'] = $("#" + formId +" #fileupload1Span").text();
 		}
 		extraActivityDetailsDTO['joiningLink'] = $("#" + formId + " #joiningLink").val();
+		extraActivityDetailsDTO['enableRegistration'] = $("#" + formId + " #enableRegistration").val() === "true";
 		extraActivityDetailsDTO['activityPurpose'] = $("#" + formId + " #activityPurpose").val();
 		extraActivityDetailsDTO['meetingVendor'] = $("#" + formId + " #meetingVendor").val();
 		extraActivityDetailsDTO['schoolId'] = SCHOOL_ID;
@@ -349,6 +350,7 @@ function resetExtraActivityForm(formId){
 	$("#extraActivityForm #fileupload1Span").text('');
 	$('#extraActivityForm #activityMeetingType').val('ODM').trigger('change');
 	$('#extraActivityForm #joiningLink').val('');
+	$("#" + formId + " #enableRegistration").val("false");
 	$('#extraActivityForm #activityPurpose').val('');
 
 }
