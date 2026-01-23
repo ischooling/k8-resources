@@ -58,13 +58,13 @@ function callForPPCRequestForm(formId, moduleId,folderName) {
         		} else {
         			var url = '';
         			if(ENVIRONMENT=='uat'){
-        				url = 'http://164.52.198.42:8080/k8school/common/ppc-request-thank-you';
+        				url = 'http://164.52.198.42:8080/common/ppc-request-thank-you';
         			}else if(ENVIRONMENT=='uat2'){
-        				url = 'http://164.52.198.42:9090/k8school/common/ppc-request-thank-you';
+        				url = 'http://164.52.198.42:9090/common/ppc-request-thank-you';
         			}else if(ENVIRONMENT=='LOCAL'){
-        				url = 'http://localhost:8080/k8school/common/ppc-request-thank-you';
+        				url = 'http://localhost:8080/common/ppc-request-thank-you';
         			}else if(ENVIRONMENT=='staging'){
-        				url = 'http://164.52.198.42:8070/k8school/common/ppc-request-thank-you';
+        				url = 'http://164.52.198.42:8070/common/ppc-request-thank-you';
         			}else{
         				url = 'https://www.k8school.com/'+folderName+'-thankyou/';
         			}

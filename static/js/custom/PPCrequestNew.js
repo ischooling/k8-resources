@@ -94,15 +94,15 @@ function callForPPCRequestForm(formId, moduleId, folderName) {
           var url = "";
           if (ENVIRONMENT == "uat") {
             url =
-              "https://staging.internationalschooling.org/k8school/k8school/common/ppc-request-thank-you";
+              "https://staging.internationalschooling.org/common/ppc-request-thank-you";
           } else if (ENVIRONMENT == "uat2") {
             url =
-              "http://164.52.198.42:9090/k8school/common/ppc-request-thank-you";
+              "http://164.52.198.42:9090/common/ppc-request-thank-you";
           } else if (ENVIRONMENT == "dev") {
-            url = "http://localhost:8080/k8school/common/ppc-request-thank-you";
+            url = "http://localhost:8080/common/ppc-request-thank-you";
           } else if (ENVIRONMENT == "staging") {
             url =
-              "http://164.52.198.42:8070/k8school/common/ppc-request-thank-you";
+              "http://164.52.198.42:8070/common/ppc-request-thank-you";
           } else {
             url = ORIGIN_NEW_URL + "/home-lp-thankyou/";
           }
@@ -722,19 +722,19 @@ function callForRequestDemoForm(formId, moduleId, folderName) {
         }
         if (ENVIRONMENT == "uat") {
           url =
-            "https://staging.internationalschooling.org/k8school/k8school/common/book-a-demo-thank-you/" +
+            "https://staging.internationalschooling.org/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "uat2") {
           url =
-            "http://164.52.198.42:9090/k8school/common/book-a-demo-thank-you/" +
+            "http://164.52.198.42:9090/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "dev") {
           url =
-            "http://localhost:8080/k8school/common/book-a-demo-thank-you/" +
+            "http://localhost:8080/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "staging") {
           url =
-            "http://164.52.198.42:8070/k8school/common/book-a-demo-thank-you/" +
+            "http://164.52.198.42:8070/common/book-a-demo-thank-you/" +
             parameters;
         } else {
           url = ORIGIN_NEW_URL + "/home-lp-thankyou/" + parameters;
@@ -875,19 +875,19 @@ function callForInquiryForm(formId, moduleId, folderName) {
         }
         if (ENVIRONMENT == "uat") {
           url =
-            "https://staging.internationalschooling.org/k8school/k8school/common/book-a-demo-thank-you/" +
+            "https://staging.internationalschooling.org/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "uat2") {
           url =
-            "http://164.52.198.42:9090/k8school/common/book-a-demo-thank-you/" +
+            "http://164.52.198.42:9090/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "dev") {
           url =
-            "http://localhost:8080/k8school/common/book-a-demo-thank-you/" +
+            "http://localhost:8080/common/book-a-demo-thank-you/" +
             parameters;
         } else if (ENVIRONMENT == "staging") {
           url =
-            "http://164.52.198.42:8070/k8school/common/book-a-demo-thank-you/" +
+            "http://164.52.198.42:8070/common/book-a-demo-thank-you/" +
             parameters;
         } else {
           url = ORIGIN_NEW_URL + "/home-lp-thankyou/" + parameters;
