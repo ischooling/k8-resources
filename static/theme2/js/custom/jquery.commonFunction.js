@@ -2533,9 +2533,6 @@ function getSettingsByTypeAndKey(type, key) {
   return responseData;
 }
 
-var allowedUserIds = JSON.parse(allowedUsers).data.metaValue.split(",").map(id => id.trim());
-var isUserAllowed = allowedUserIds.includes(USER_ID.toString());
-
 function getSignedUrlForCopyClipboard(videoUrl) {
     return new Promise((resolve, reject) => {
       $.ajax({

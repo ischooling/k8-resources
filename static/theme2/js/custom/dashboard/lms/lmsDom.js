@@ -151,7 +151,7 @@ function learningResource(){
 $(document).ready(function(){
   $("#lms").append(container());
   $("body").append(chapterBar());
-  var pdfUrl = 'http://localhost:8080/k8school/static/theme2/images/FlipBookPDF/science.pdf';
+  var pdfUrl = 'http://localhost:8080/static/theme2/images/FlipBookPDF/science.pdf';
   pdfUrl='https://s3.amazonaws.com/testseri/test/C-MSSS-01-book.pdf';
   renderPdfView('pdf-render', pdfUrl);
 });

@@ -38,7 +38,7 @@ Notification.requestPermission().then((permission) => {
 
 
 // if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register('/k8school/static/firebase-messaging-sw.js')
+//   navigator.serviceWorker.register('/static/firebase-messaging-sw.js')
 //     .then(function(registration) {
 //       console.log('Registration successful, scope is:');
 //     }).catch(function(err) {

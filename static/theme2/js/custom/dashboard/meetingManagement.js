@@ -1,4 +1,9 @@
-
+function checkUserAllowed(userId){
+  var allowedUsers = getSettingsByTypeAndKey('CONFIGURATION','ALLOW_SEEING_ALL_MEETINGS_RECORDINGS');
+  var allowedUserIds = JSON.parse(allowedUsers).data.metaValue.split(",").map(id => id.trim());
+  return allowedUserIds.includes(userId.toString());
+}
+var isUserAllowed=checkUserAllowed(USER_ID)
 function formatDateToMMMDDYYYYForFilter(dateStr) {
   const date = new Date(dateStr);
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });

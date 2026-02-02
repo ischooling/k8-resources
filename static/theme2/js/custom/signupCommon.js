@@ -407,6 +407,7 @@ function getRequestForSignup(formId, moduleId){
 	signupDTO['isdCode'] = $("#"+formId+" #isdCode").val();
 	signupDTO['mobileNumber'] = $("#"+formId+" #userphone").val();
 	signupDTO['schoolUUID'] = SCHOOL_UUID;
+	signupDTO['sessionYear'] = $("#"+formId+" #sessionYear").val();
 	if(window.location.href.search(/isDemoUser/i)>0){
 		signupDTO['isDemoUser'] = 'true';
 	}

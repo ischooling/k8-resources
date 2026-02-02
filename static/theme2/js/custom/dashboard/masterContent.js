@@ -13,6 +13,16 @@ function getGradesData(requiredGrades){
 			grade['value']='KG';
 			grades.push(grade);
 		}
+		else if(requiredGrades[index]=='KG 1'){
+			grade['key']=18; 
+			grade['value']='KG 1';
+			grades.push(grade);
+		}
+		else if(requiredGrades[index]=='KG 2'){
+			grade['key']=19; 
+			grade['value']='KG 2';
+			grades.push(grade);
+		}
 		else if(requiredGrades[index]=='1'){
 			grade['key']=12;
 			grade['value']='Grade 1';
@@ -111,7 +121,7 @@ function getLearningProgramContent(schoolId){
 function getStandardContent(schoolId){
 	var actualGrades='';
 	if(schoolId==1){
-		actualGrades=['N','KG','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17'];
+		actualGrades=['N','KG','KG 1','KG 2','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17'];
 	}else{
 		actualGrades=['1','2','3','4','5','6','7','8','9','10','11','12'];
 	}

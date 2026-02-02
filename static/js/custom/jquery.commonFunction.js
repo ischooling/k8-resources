@@ -2317,10 +2317,6 @@ function getSettingsByTypeAndKey(type, key) {
   return responseData;
 }
 
-var allowedUsers = getSettingsByTypeAndKey('CONFIGURATION','ALLOW_SEEING_ALL_MEETINGS_RECORDINGS');
-var allowedUserIds = JSON.parse(allowedUsers).data.metaValue.split(",").map(id => id.trim());
-var isUserAllowed = allowedUserIds.includes(USER_ID.toString());
-
 function changeDateFormatK8(date, dateFormat) {
   if ("mm-dd-yyyy" == dateFormat) {
     return ((date.getMonth() > 8 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1)) + "-" + (date.getDate() > 9 ? date.getDate() : "0" + date.getDate()) + "-" + date.getFullYear());
