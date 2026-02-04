@@ -150,12 +150,15 @@ function addPayment(userId,standardId,studentId,studentStandardId){
 	$('#standardIdSearch').val(standardId);
 	$('#studentIdSearch').val(studentId);
 	$('#studentStandardId').val(studentStandardId);
+	$('#paymentGradeId option').show();
+	$('#paymentGradeId option[value="' + standardId + '"]').hide();
 	$('#addPaymentModal').modal('show');
 }
 
 function addStudentPayment(formId, moduleId){
 	var paymentTitle=$("#"+formId+" #paymentType1").val();
 	var paymentName=$("#"+formId+" #paymentName1").val();
+	var paymentGradeId=$("#"+formId+" #paymentGradeId").val();
 	//var userRefNumber =$("#"+formId+" #userRefNumber1").val();
 	var payableAmount =$("#"+formId+" #payableAmount").val();
 	var currency1 =$("#"+formId+" #currency1").val();
@@ -169,6 +172,12 @@ function addStudentPayment(formId, moduleId){
 	if(paymentTitle =="" || paymentTitle == undefined){
 		showMessage(true,"Payment title is mandatory.");
 		return false;
+	}
+	if(paymentTitle == 'REGISTRATION_SUBJECT_FEE_ADV' || paymentTitle == 'SUBJECT_FEE_ADV'){
+		if(paymentGradeId == undefined || paymentGradeId ==""){
+			showMessage(true,"Grade is mandatory.");
+			return false;
+		}
 	}
 	if(paymentTitle=='SUBJECT_FEE_ADV' || paymentTitle=='SUBJECT_FEE'){
 		if(paymentName == undefined || paymentName ==""){
@@ -255,6 +264,7 @@ function getRequestDataForAddPaymentDetails(formId, moduleId){
 	addPaymentDTO['studentStandardId'] = $("#"+formId+" #studentStandardId").val().trim();
 	addPaymentDTO['paymentTitle'] = $("#"+formId+" #paymentType1").select2('val');
 	addPaymentDTO['paymentName'] = $("#"+formId+" #paymentName1").select2('val');
+	addPaymentDTO['paymentGradeId'] = $("#"+formId+" #paymentGradeId").val().trim();
 	addPaymentDTO['referenceNumber'] = $("#"+formId+" #userRefNumber1").val().trim();
 	addPaymentDTO['payableAmount'] = $("#"+formId+" #payableAmount").val().trim();
 	addPaymentDTO['registrationAmount'] = $("#"+formId+" #registrationAmount").val().trim();
