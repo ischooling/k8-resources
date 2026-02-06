@@ -150,8 +150,6 @@ function addPayment(userId,standardId,studentId,studentStandardId){
 	$('#standardIdSearch').val(standardId);
 	$('#studentIdSearch').val(studentId);
 	$('#studentStandardId').val(studentStandardId);
-	$('#paymentGradeId option').show();
-	$('#paymentGradeId option[value="' + standardId + '"]').hide();
 	$('#addPaymentModal').modal('show');
 }
 
