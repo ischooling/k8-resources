@@ -1,5 +1,5 @@
 function renderPdfView(elementId, pdfUrl,pageNum, totalNumOFPages,startPages,endPages){
-  $("#page-count").text(totalNumOFPages)
+  $("#page-count").text(totalNumOFPages.replace(/"/g, ''))
   pageNum = parseInt(pageNum);
   var canvas = document.querySelector('#' + elementId);
   ctx = canvas.getContext('2d');
@@ -110,7 +110,7 @@ function renderPdfView(elementId, pdfUrl,pageNum, totalNumOFPages,startPages,end
     var enrollmentid = parseInt($(this).attr("enrollmentid"));
     var courseid = parseInt($(this).attr("courseid"));
     var lessonid = parseInt($(this).attr("lessonid"));
-    var startPageNo = parseInt($(this).attr("startPageNo"));
+    var startPageNo = $(this).attr("startPageNo");
     var allsessonid = $(this).attr("allsessonid");
     loadPageWithResources(enrollmentid,courseid,lessonid, allsessonid);
     goToChapter(startPageNo);
@@ -132,24 +132,31 @@ function generateBookUrl(pdfUrl, pageNumber, totalNumOFPages){
   return 'https://k8school.s3.amazonaws.com/books/'+fileName.substring(0,fileName.length-4)+generateSequenceNumber(pageNumber,totalNumOFPages,'.png');
 }
 
-function generateSequenceNumber(pageNumber, totalNumOFPages, extension){
-  if(parseInt(totalNumOFPages)<10){
-    if(pageNumber<10){
-      return '-'+pageNumber+extension;
+function generateSequenceNumber(pageNumber, totalNumOFPages, extension) {
+    var value = $.trim(String(pageNumber || ""));
+    var totalPages = parseInt(String(totalNumOFPages || "").replace(/[^\d]/g, ""), 10) || 0;
+    var ext = extension || "";
+
+    var match = value.match(/^([A-Za-z]+)?-?(\d+)$/);
+    if (!match) {
+        return "-" + value + ext;
     }
-  }else if(parseInt(totalNumOFPages)<100){
-    if(pageNumber<10){
-      return '-0'+pageNumber+extension;
-    }else if(pageNumber<100){
-      return '-'+pageNumber+extension;
+
+    var stringPart = match[1] || "";
+    var numberPart = match[2];
+
+    var padLength = 1;
+    if (totalPages >= 100) {
+        padLength = 3;
+    } else if (totalPages >= 10) {
+        padLength = 2;
     }
-  }else if(parseInt(totalNumOFPages)<1000){
-    if(pageNumber<10){
-      return '-00'+pageNumber+extension;
-    }else if(pageNumber<100){
-      return '-0'+pageNumber+extension;
-    }else if(pageNumber<1000){
-      return '-'+pageNumber+extension;
+
+    var paddedNumber = numberPart.padStart(padLength, "0");
+
+    if (stringPart) {
+        return "-" + stringPart + "-" + paddedNumber + ext;
     }
-  }
+
+    return "-" + paddedNumber + ext;
 }
