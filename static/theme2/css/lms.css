@@ -55,7 +55,7 @@
 .full_screen_view_btn .minimize{display:none}
 .page-info {margin-left:5px;}
 .page-info .page-nav{display: inline-block;padding:0px 4px;color:#fff;margin: 0px;}
-.pdf-page-input{width:30px;background:#fff;border:none;color:#000;text-align: right;outline: none;text-align: center;border-radius: 4px;}
+.pdf-page-input{width:40px;background:#fff;border:none;color:#000;text-align: right;outline: none;text-align: center;border-radius: 4px;}
 .page-info .page-nav #page-count{padding-left:2px;}
 .error {background: orangered;color: #fff;padding: 1rem;}
   /* input check box customization css */
