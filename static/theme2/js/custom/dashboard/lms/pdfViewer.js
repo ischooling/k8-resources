@@ -178,6 +178,38 @@ function parsePageLabel(pageValue) {
   };
 }
 
+function isNumericPageLabel(pageValue) {
+  return /^\d+$/.test(sanitizePageLabel(pageValue));
+}
+
+function isNumericOnlyBook(startPages, endPages, pageNum, totalNumOFPages) {
+  var isNumericOnly = true;
+
+  function verifyPageLabel(_, pageValue) {
+    if (sanitizePageLabel(pageValue) !== '' && !isNumericPageLabel(pageValue)) {
+      isNumericOnly = false;
+      return false;
+    }
+  }
+
+  verifyPageLabel(0, pageNum);
+  verifyPageLabel(0, totalNumOFPages);
+
+  if (!isNumericOnly) {
+    return false;
+  }
+
+  $.each(startPages || [], verifyPageLabel);
+
+  if (!isNumericOnly) {
+    return false;
+  }
+
+  $.each(endPages || [], verifyPageLabel);
+
+  return isNumericOnly;
+}
+
 function parseRomanNumeral(value) {
   var romanValue = String(value || '').toUpperCase();
   var romanMap = {
@@ -399,6 +431,22 @@ function buildPageSequence(startPages, endPages, pageNum, totalNumOFPages) {
   var pageSequence = [];
   var uniquePageMap = {};
   var pageRangeContext = buildPageRangeContext(startPages, endPages, pageNum, totalNumOFPages);
+  var totalPages;
+  var pageNumber;
+
+  if (isNumericOnlyBook(startPages, endPages, pageNum, totalNumOFPages)) {
+    totalPages = parseInt(sanitizePageLabel(totalNumOFPages), 10) || 0;
+
+    for (pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+      pageSequence.push(String(pageNumber));
+    }
+
+    if (!pageSequence.length) {
+      pageSequence.push(String(parseInt(sanitizePageLabel(pageNum), 10) || 1));
+    }
+
+    return pageSequence;
+  }
 
   $.each(startPages || [], function(index, startPage) {
     $.each(expandPageRange(startPage, endPages[index], pageRangeContext), function(_, pageLabel) {

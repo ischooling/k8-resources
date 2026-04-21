@@ -165,33 +165,46 @@ function hideMessage(id){
 	$('#messageDiv1').html('')
 	$('#messageDiv').hide();
 }
-function showMessageTheme2(messageType, message, id, msgHide){
-	hideMessageTheme2(id);
-	$('#msgTheme2').removeClass('error');
-	$('#msgTheme2').removeClass('success');
-	$('#msgTheme2').removeClass('notification');
-	if (messageType==0) {
-		$('#msgTheme2').addClass('error')
-		$('#msgTheme2').html('<i class="fa fa-times"></i>'+message);
-	}else if (messageType==1) {
-		$('#msgTheme2').addClass('success')
-		$('#msgTheme2').html('<i class="fa fa-check"></i>'+message);
-	}else if (messageType==2) {
-		$('#msgTheme2').addClass('notification')
-		$('#msgTheme2').html('<i class="fa fa-info"></i>'+message);
-	}
-	$('.server-message').addClass('show')
-	setTimeout(function(){
-		$('.server-message').removeClass('show');
-	}, 5000);
+function showMessageTheme2(messageType, message, id, msgHide) {
+  if (message == "") {
+    return false;
+  } else {
+    $("#messageDiv1").removeClass("error");
+    $("#messageDiv1").removeClass("success");
+    $("#messageDiv1").removeClass("notification");
+    $("#messageDiv").show();
+    if (messageType == 0 || messageType == false) {
+      $("#messageDiv1").addClass("error");
+      $("#messageDiv1").html(
+        '<i class="fa fa-times-circle"></i>&nbsp;' + message
+      );
+    } else if (messageType == 1 || messageType == true) {
+      $("#messageDiv1").addClass("success");
+      $("#messageDiv1").html(
+        // '<i class="fa fa-check-circle"></i>&nbsp;' + 
+        message
+      );
+    } else if (messageType == 2) {
+      $("#messageDiv1").addClass("notification");
+      $("#messageDiv1").html(
+        '<i class="fa fa-info-circle"></i>&nbsp;' + message
+      );
+    }
+    $(".server-error-message").addClass("show");
+    setTimeout(function () {
+      if ($(".server-error-message").hasClass("show")) {
+        $(".server-error-message").removeClass("show");
+      }
+    }, 5000);
 
-	if(msgHide){
-		setTimeout(function(){
-			$('#msgTheme2').html('')
-			$('.server-message').removeClass('show');
-		}, 3000);
-	}
+    if (msgHide) {
+      setTimeout(function () {
+        $(".server-error-message").removeClass("show");
+      }, 3000);
+    }
+  }
 }
+
 $("#msgTheme2").click(function(){$('.server-message').removeClass('show');})
 function hideMessageTheme2(id){
 	$('#msgTheme2').html('');
