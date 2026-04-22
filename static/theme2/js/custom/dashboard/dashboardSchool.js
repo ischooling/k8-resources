@@ -396,6 +396,8 @@ function callDashboardPageSchool(moduleId, pageNo, replaceDiv, extraParam){
 		callForDashboardData('formIdIfAny','submitted-evaluation-content?moduleId='+moduleId);
 	}else if(pageNo=='auditor-save-evaluation'){
 		callForDashboardData('formIdIfAny','saved-evaluation-content?moduleId='+moduleId);
+	}else if(pageNo=='log-viewer'){
+		callForDashboardData('formIdIfAny','log-viewer-content?moduleId='+moduleId);
 	}else{
 		customLoader(false);
 	}

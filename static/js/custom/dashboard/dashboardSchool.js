@@ -998,6 +998,8 @@ function callDashboardPageSchool(moduleId, pageNo, replaceDiv, extraParam) {
     getContent(moduleId, pageNo, replaceDiv, extraParam);
   } else if (pageNo == "meeting-management") {
     getContent(moduleId, pageNo, replaceDiv, extraParam);
+  } else if (pageNo == "log-viewer") {
+    getContent(moduleId, pageNo, replaceDiv, extraParam);
   }
 }
 

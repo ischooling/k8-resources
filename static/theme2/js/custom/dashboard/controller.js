@@ -187,6 +187,8 @@ function getContent(moduleId, pageNo, replaceDiv, extraParam){
 	}else if (pageNo === "meeting-management") {
 		getMeetingManagementContent("Meeting Management")
 		
+	}else if(pageNo=='log-viewer'){
+		callForDashboardData('formIdIfAny','log-viewer-content?moduleId='+moduleId, replaceDiv);
 	}
 	closeMenu();
 	windowScrollToTop();
