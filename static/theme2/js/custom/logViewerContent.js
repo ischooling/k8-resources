@@ -192,7 +192,7 @@ window.logViewerContent = (function () {
 
 	function applyRegistryMode(defaultConfiguredPath) {
 		var mode = $.trim($("#logViewerRegistryFile").val());
-		var isProd = (typeof DEPLOYMENT_MODE !== "undefined" && DEPLOYMENT_MODE === "PROD");
+		var isProd = (typeof ENVIRONMENT !== "undefined" && ENVIRONMENT === "PROD");
 		if (isProd) {
 			if (mode === "configured") {
 				if (defaultConfiguredPath) {
@@ -212,7 +212,7 @@ window.logViewerContent = (function () {
 	}
 
 	function applyPathControlMode(defaultConfiguredPath) {
-		var isProd = (typeof DEPLOYMENT_MODE !== "undefined" && DEPLOYMENT_MODE === "PROD");
+		var isProd = (typeof ENVIRONMENT !== "undefined" && ENVIRONMENT === "PROD");
 		if (isProd) {
 			$("#logViewerPath").addClass("d-none");
 			$("#logViewerPathSelect").removeClass("d-none");
@@ -229,7 +229,7 @@ window.logViewerContent = (function () {
 	}
 
 	function getSelectedPath() {
-		var isProd = (typeof DEPLOYMENT_MODE !== "undefined" && DEPLOYMENT_MODE === "PROD");
+		var isProd = (typeof ENVIRONMENT !== "undefined" && ENVIRONMENT === "PROD");
 		if (isProd) {
 			return $.trim($("#logViewerPathSelect").val());
 		}
@@ -238,7 +238,7 @@ window.logViewerContent = (function () {
 
 	function setSelectedPath(path) {
 		var safePath = $.trim(path || "");
-		var isProd = (typeof DEPLOYMENT_MODE !== "undefined" && DEPLOYMENT_MODE === "PROD");
+		var isProd = (typeof ENVIRONMENT !== "undefined" && ENVIRONMENT === "PROD");
 		if (isProd) {
 			if (safePath && $("#logViewerPathSelect option[value='" + safePath + "']").length > 0) {
 				$("#logViewerPathSelect").val(safePath);
