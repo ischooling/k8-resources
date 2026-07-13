@@ -249,7 +249,7 @@ function validateRequestForCopyCourse(formId,controlType){
 				return false;
 			}
 		}
-		if($("#" + formId + " #type").val()=='Continous'){
+		if($("#" + formId + " #type").val()=='Continuous'){
 			if($("#" + formId + " #daysCount").val()==''){
 				$('#copyCourseForm #copyCourseErrMessage').text('Please enter days');
 				return false;
@@ -306,6 +306,7 @@ function copySelectedCourse(formId, tableId, controlType) {
 					$('#copyCourseForm #copyCourseErrMessage').text( data['message']);
 					$('#' + formId)[0].reset();
 				}
+				$('#type').val("").trigger('change');
 			}
 			return false;
 		},
@@ -314,10 +315,6 @@ function copySelectedCourse(formId, tableId, controlType) {
 			console.log("ERROR : ", e);
 		}
 	});
-	$('#type').val("");
-    $('#type').select2({
-    	theme:"bootstrap4",
-    }).trigger('change');
 
 }
 

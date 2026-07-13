@@ -226,8 +226,10 @@ function renderMeetings(meetings) {
             <button onclick="showWarningMessage('Are you sure you want to delete this meeting?', 'deleteMeeting(${meeting.meetingId})')" style="border: 0; background: transparent; color: #DC362E !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm" ${disableButtonsOnStart ? "disabled" : ""}><i style="font-size: 20px;" class="fa fa-trash"></i></button>`;
             if(isUserAllowed){
               if(meeting.recordingsCount > 0){
+                const escapedTitle = (meeting.title || '').replace(/'/g, "\\'");
+                const escapedHostName = (meeting.hostName || '').replace(/'/g, "\\'");
                 meetingsHtml+=
-                `<button onclick="openRecordingModalMettingManagement('${meeting.meetingId}', 'GENERAL_MEETINGS', '${meeting.startDate}', '${meeting.title}', '${meeting.timeRange.split('-')[0]}', '${meeting.hostName}')" style="border: 0; background: transparent; color: #027FFF !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm" title="Play Recording">
+                `<button onclick="openRecordingModalMettingManagement('${meeting.meetingId}', 'GENERAL_MEETINGS', '${meeting.startDate}', '${escapedTitle}', '${meeting.timeRange.split('-')[0]}', '${escapedHostName}')" style="border: 0; background: transparent; color: #027FFF !important; padding: 5px; box-shadow: 0px 0px transparent;" class="btn btn-sm" title="Play Recording">
                     <i class="fa fa-video-camera" style="font-size: 20px;"></i>
                   </button>` 
               }
