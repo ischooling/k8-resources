@@ -291,22 +291,31 @@ function copySelectedCourse(formId, tableId, controlType) {
 		cache : false,
 		timeout : 600000,
 		success : function(data) {
+			console.log("copyCourse response ::", JSON.stringify(data));
 			if (data['status'] == '0' || data['status'] == '2') {
 				$('#copyCourseForm #copyCourseErrMessage').text( data['message']);
 			} else {
 
 				if(controlType !='SAVE'){
 					var result = data['copyCourseSyncStatus'];
-					var msg = $('#copyCourseForm #copyCourseErrMessage');
-					$.each(result, function(k, v) {
-						msg.append(v.message+'<br/>');
-					});
+					console.log("copyCourse syncStatus ::", result);
+					var msgHtml = '';
+					if(result != null && result.length > 0){
+						$.each(result, function(k, v) {
+							msgHtml += v.message+'<br/>';
+						});
+					} else {
+						msgHtml = data['message'] || 'Sync completed.';
+					}
 					$('#' + formId)[0].reset();
+					$('#type').val("").trigger('change');
+					var msg = $('#copyCourseForm #copyCourseErrMessage');
+					msg.html(msgHtml);
 				}else{
 					$('#copyCourseForm #copyCourseErrMessage').text( data['message']);
 					$('#' + formId)[0].reset();
+					$('#type').val("").trigger('change');
 				}
-				$('#type').val("").trigger('change');
 			}
 			return false;
 		},

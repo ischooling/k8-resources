@@ -381,6 +381,10 @@ $(document).ajaxError(
 $( document ).ajaxStop(function() {
 	customLoader(false);
 });
+
+$(document).on('processing.dt', function(e, settings, processing) {
+	customLoader(processing);
+});
 function tabActiveStatus(tabPosition){
 	signupPage=tabPosition;
 	$('#tabPosition'+tabPosition).trigger('click');

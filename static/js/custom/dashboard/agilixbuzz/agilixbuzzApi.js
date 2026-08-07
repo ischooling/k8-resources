@@ -70,7 +70,7 @@ function getRequestForAgilixbuzzSyncUser(formId, moduleId, requestKey, value, lm
 }
 
 
-function callAgilixbuzzSyncUser(formId, moduleId, requestKey, value, lmsProviderId) {
+function callAgilixbuzzSyncUser(formId, moduleId, requestKey, value, lmsProviderId, userId) {
 	hideMessage('');
 	if (!validateRequestForAgilixbuzzSyncUser(formId, moduleId, requestKey, value, lmsProviderId)) {
 		return false;
@@ -82,13 +82,19 @@ function callAgilixbuzzSyncUser(formId, moduleId, requestKey, value, lmsProvider
 		data : JSON.stringify(getRequestForAgilixbuzzSyncUser(formId, moduleId, requestKey, value, lmsProviderId)),
 		dataType : 'json',
 		success : function(data) {
-			if (data['status'] == '0' || data['status'] == '2' || data['status'] == '3') {
-				showMessage(true, data['message']);
-				if(data['status'] == '3'){
-					redirectLoginPage();
-				}
-			} else {
-				showMessage(true, data['message']);
+			// NOTE: this endpoint (AgilixbuzzSyncResponse) returns 'code', NOT 'status':
+			//   "1"/"OK" = success, "3" = session out, "0"/"2" = failed/exception.
+			var code = data['code'];
+			showMessage(true, data['message']);
+			if (code == '3') {
+				redirectLoginPage();
+			} else if ((code == '1' || code == 'OK')
+					&& typeof userId !== 'undefined' && userId !== ''
+					&& typeof callChangePasswordModal === 'function') {
+				// Sync succeeded -> reload the "Manage LMS Content" modal so the updated
+				// LMS User Name/LMS User Id and Mail Sent Status reflect immediately.
+				$('#studentViewLmsEntryModel').modal('hide');
+				setTimeout(function(){ callChangePasswordModal(userId); }, 600);
 			}
 			return false;
 		}

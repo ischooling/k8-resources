@@ -8,8 +8,9 @@ jQuery.fn.dataTableExt.oApi.fnSetFilteringEnterPress = function(oSettings) {
 		anControl.unbind('keyup search input').bind(
 				'keyup search input',
 				function(e) {
-					if (anControl.val().length == "" || anControl.val().length > 2 && e.keyCode == 13) {
-						_that.fnFilter(anControl.val());
+					var searchVal = $.trim(anControl.val());
+					if (searchVal.length == 0 || searchVal.length > 2 && e.keyCode == 13) {
+						_that.fnFilter(searchVal);
 					}
 				});
 		return this;

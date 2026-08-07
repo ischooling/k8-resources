@@ -405,6 +405,10 @@ $( document ).ajaxStop(function() {
 	customLoader(false);
 });
 
+$(document).on('processing.dt', function(e, settings, processing) {
+	customLoader(processing);
+});
+
 function goAheadGet(url, hash) {
 	var form = $('<form action="' + url + '" method="GET">'
 			+ '<input type="hidden" name="hash" id="hash" value="' + hash + '" />'

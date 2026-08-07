@@ -615,14 +615,16 @@ function showManageProfileOtpMobileListingWithQueries(elementId, argument){
 }
 function advanceStudentSearch(formId, moduleId) {
 	hideMessage('');
-
+	// Show the loader explicitly: this request replaces the whole list HTML and can
+	// take time. It was previously async:false (synchronous), which blocks the
+	// browser thread so the loader never gets a chance to paint.
+	customLoader(true);
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
 		url : getURLForHTML('dashboard','advance-student-search'),
 		data : JSON.stringify(getCallRequestForadvanceStudentSearch(formId, moduleId)),
 		dataType : 'html',
-		async:false,
 		success : function(htmlContent) {
 			if(htmlContent!=""){
             	var stringMessage = [];
@@ -639,6 +641,9 @@ function advanceStudentSearch(formId, moduleId) {
         		}
         		return false;
 			}
+		},
+		complete : function() {
+			customLoader(false);
 		}
 	});
 }
