@@ -85,6 +85,7 @@ function getLogViewerContent() {
 								placeholder="/usr/local/src/logs/K8-LOG/K8-DEBUG.log" autocomplete="off">
 							<select id="logViewerPathSelect" class="form-control d-none">
 								<option value="/usr/local/src/logs/K8-LOG/K8-DEBUG.log">/usr/local/src/logs/K8-LOG/K8-DEBUG.log</option>
+								<option value="/usr/local/src/logs/LMS-LOG/LMS-DEBUG.log">/usr/local/src/logs/LMS-LOG/LMS-DEBUG.log</option>
 								<option value="/home/ec2-user/src/7070/nohup.out">/home/ec2-user/src/7070/nohup.out</option>
 								<option value="/home/ec2-user/src/9090/nohup.out">/home/ec2-user/src/9090/nohup.out</option>
 								<option value="/home/ec2-user/src/9000/nohup.out">/home/ec2-user/src/9000/nohup.out</option>
