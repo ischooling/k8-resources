@@ -1,5 +1,39 @@
 const dthw = new DataTransfer();
 var homeworkAttachment=[]
+// guard so a double click on Submit does not fire two uploads for the same homework
+var homeWorkSubmitInProgress = false;
+var HOMEWORK_MAX_FILE_SIZE = 5242880;
+var HOMEWORK_MAX_TOTAL_SIZE = 10485760;
+var MAX_TOTAL_SIZE_LIMIT = 'Total upload size should not exceed 10MB. Please upload smaller files.';
+// the page level message div sits behind an open modal, so errors are shown inside
+// the modal itself whenever the homework modal carries an inline placeholder
+function getHomeWorkInlineMsgEle(){
+	var placeholderIds = ['#homeWorkUploadLimitsMsg', '#HomeWorkUploadLimitsMsg'];
+	for(var i = 0; i < placeholderIds.length; i++){
+		var ele = $(placeholderIds[i]);
+		// only the placeholder of the modal that is currently open should be used
+		if(ele.length > 0 && ele.closest('.modal').hasClass('show')){
+			return ele;
+		}
+	}
+	return null;
+}
+
+function showHomeWorkMessage(isError, message){
+	var inlineMsgEle = isError ? getHomeWorkInlineMsgEle() : null;
+	if(inlineMsgEle != null){
+		inlineMsgEle.removeClass('d-none').text(message);
+		setTimeout(function(){
+			inlineMsgEle.addClass('d-none').text("");
+		}, 8000);
+		return;
+	}
+	if(tt=='theme2'){
+		showMessageTheme2(isError?0:1, message, '', true);
+	}else{
+		showMessage(isError, message);
+	}
+}
 function submitTask(formId,moduleId,moduleId1) {
 	hideMessage('');
 	if(!validateRequestForSubmitTask(formId,moduleId)){
@@ -95,7 +129,10 @@ function validateRequestForSubmitTask(formId,moduleId){
 }
 
 function submitReplyTask(formId,moduleId, callFrom) {
-	
+
+	if(homeWorkSubmitInProgress){
+		return;
+	}
 	if(tt=='theme2'){
 		hideMessageTheme2('');
 	}else{
@@ -112,11 +149,20 @@ function submitReplyTask(formId,moduleId, callFrom) {
 		totalfiles = $("#"+formId+" #fileuploadHomework").get(0).files.length;
 	}
 	if(totalfiles==0){
-		if(tt=='theme2'){
-			showMessageTheme2(0, 'Please choose atleast one file',true);
-		}else if(tt=='theme1'){
-			showMessage(false, 'Please choose atleast one file');
+		showHomeWorkMessage(true, 'Please choose atleast one file');
+		return;
+	}
+	var filesToSubmit = (callFrom=='LMS') ? dt.files : $("#"+formId+" #fileuploadHomework").get(0).files;
+	var totalSize = 0;
+	for (var s = 0; s < filesToSubmit.length; s++) {
+		if(filesToSubmit[s].size > HOMEWORK_MAX_FILE_SIZE){
+			showHomeWorkMessage(true, MAX_SIZE_LIMIT);
+			return;
 		}
+		totalSize = totalSize + filesToSubmit[s].size;
+	}
+	if(totalSize > HOMEWORK_MAX_TOTAL_SIZE){
+		showHomeWorkMessage(true, MAX_TOTAL_SIZE_LIMIT);
 		return;
 	}
 	if(callFrom=='LMS'){
@@ -128,13 +174,15 @@ function submitReplyTask(formId,moduleId, callFrom) {
 			fdata.append("replyAttachment[]", $("#"+formId+" #fileuploadHomework").get(0).files[index]);
 		}
 	}
-	
+
 	// if(editor1!=undefined){
 	// 	fdata.append('contentReply',escapeCharacters(editor1.getData()));
 	// }else{
 	// 	fdata.append('contentReply',$("#"+formId+" #contentReply").val());
 	// }
 	customLoader(true);
+	homeWorkSubmitInProgress = true;
+	$("#submitStudentTaskHomeWork").attr('disabled','disabled');
 	$.ajax({
 		type : "POST",
 		url : getURLForHTML('dashboard','student-homework-submit'),
@@ -146,10 +194,14 @@ function submitReplyTask(formId,moduleId, callFrom) {
 		async : false,
 		global:false,
 		enctype: 'multipart/form-data',
+		complete : function() {
+			homeWorkSubmitInProgress = false;
+			$("#submitStudentTaskHomeWork").removeAttr('disabled');
+		},
 		success : function(data) {
 			customLoader(false);
 			if (data['status'] == '0' || data['status'] == '2') {
-				showMessage(true, data['message']);
+				showHomeWorkMessage(true, data['message']);
 			} else {
 				if(callFrom=='LMS'){
 					showMessageTheme2(1, 'Homework Submitted','',true);
@@ -190,7 +242,11 @@ function submitReplyTask(formId,moduleId, callFrom) {
 		},
 		error : function(e) {
 			customLoader(false);
-			//showMessage(true, e.responseText);
+			if(e.status == 413){
+				showHomeWorkMessage(true, MAX_TOTAL_SIZE_LIMIT);
+			}else{
+				showHomeWorkMessage(true, 'Homework could not be submitted, please try again');
+			}
 			return false;
 		}
 	});
