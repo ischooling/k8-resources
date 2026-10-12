@@ -215,6 +215,8 @@ function callDashboardPageSchool(moduleId, pageNo, replaceDiv, extraParam){
 		getContent(moduleId, pageNo, replaceDiv, extraParam);
 	}else if(pageNo=='notifications' || pageNo=='parent-notifications'){
 		callForDashboardData('formIdIfAny','notifications'+extraParam);
+	}else if(pageNo=='location-checker-captures'){
+		callForDashboardData('formIdIfAny','location-checker-captures-content?moduleId='+moduleId);
 	}else if(pageNo=='module'){
 		callForDashboardData('formIdIfAny','get-modules?moduleId='+moduleId);
 	}else if(pageNo=='modulerole'){
